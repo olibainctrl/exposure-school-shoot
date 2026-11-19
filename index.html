@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Exposure 显影 · 学校拍摄日程</title>
+<meta name="description" content="短片《Exposure 显影》在学校里拍摄的 4 天安排：每天拍哪几场、几点到几点、用到哪些地方。">
+<style>
+:root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; font-size: 14px; -webkit-text-size-adjust: 100%; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+</style>
+<style>
+/* 版式：通告单式的工作文件。总览条（每天一行，时间轴对齐，日落那一段上色），下面每天一张卡片，卡片里按剧本场次分块，每块一个“剧本原文”按钮。 */
+:root {
+  --bg: #F3F5F8; --surface: #FFFFFF; --sunk: #F7F8FA; --ink: #18202E; --muted: #5B6575; --faint: #8A93A2; --line: #DCE1E8;
+  --accent: #B8662A; --accent-soft: #F6E6D8; --on-accent: #FFFFFF;
+  --sky-day: #E3EAF2; --sky-gold: #E7A24C; --sky-blue: #5B83C2; --sky-deep: #2D4678; --sky-night: #1B2335;
+  --bk-shoot: #18202E; --bk-prep: #8E99AA; --bk-over: #C9D0DA;
+  --scrim: rgba(15, 20, 28, .45);
+  --f-display: "Noto Serif SC", "Songti SC", "STSong", serif;
+  --f-body: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F141C; --surface: #161D28; --sunk: #121822; --ink: #E5E9EF; --muted: #A0AABA; --faint: #7A8496; --line: #2A3342;
+    --accent: #E39A5A; --accent-soft: #3A2A1E; --on-accent: #1A1208;
+    --sky-day: #253041; --sky-gold: #C98638; --sky-blue: #4A73B3; --sky-deep: #34528A; --sky-night: #05080D;
+    --bk-shoot: #E5E9EF; --bk-prep: #7C8799; --bk-over: #3A4455; --scrim: rgba(0, 0, 0, .6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F141C; --surface: #161D28; --sunk: #121822; --ink: #E5E9EF; --muted: #A0AABA; --faint: #7A8496; --line: #2A3342;
+  --accent: #E39A5A; --accent-soft: #3A2A1E; --on-accent: #1A1208;
+  --sky-day: #253041; --sky-gold: #C98638; --sky-blue: #4A73B3; --sky-deep: #34528A; --sky-night: #05080D;
+  --bk-shoot: #E5E9EF; --bk-prep: #7C8799; --bk-over: #3A4455; --scrim: rgba(0, 0, 0, .6);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+main, header.top, footer { overflow-x: clip; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.65; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+.wrap { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.nowrap { white-space: nowrap; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; line-height: 1.3; margin: 0; }
+p { margin: 0; }
+button { font: inherit; }
+
+.top { background: var(--surface); border-bottom: 1px solid var(--line); }
+.top .wrap { padding-block: 28px 22px; display: grid; gap: 14px; }
+.top .wrap > * { min-width: 0; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--accent); }
+h1 { font-size: clamp(26px, 4.5vw, 38px); font-weight: 700; }
+.lede { color: var(--muted); max-width: 46em; }
+.facts { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 4px; }
+.fact { display: grid; }
+.fact b { font-family: var(--f-mono); font-size: 22px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.fact span { font-size: 13px; color: var(--muted); }
+
+nav.sec { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); }
+nav.sec .wrap { display: flex; gap: 4px; overflow-x: auto; padding-block: 8px; }
+nav.sec a { color: var(--ink); text-decoration: none; font-size: 14px; padding: 6px 12px; border-radius: 6px; white-space: nowrap; }
+nav.sec a:hover, nav.sec a:focus-visible { background: var(--accent-soft); outline: none; }
+
+section { padding-block: 40px 8px; scroll-margin-top: 56px; }
+main > section + section { border-top: 1px solid var(--line); margin-top: 32px; }
+section > .wrap > h2 { font-size: 24px; margin-bottom: 6px; }
+.sec-lede { color: var(--muted); margin-bottom: 18px; max-width: 46em; }
+
+.overview { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px 10px; overflow-x: auto; }
+.ov-inner { min-width: 680px; display: grid; gap: 6px; }
+.ov-row, .ov-axis { display: grid; grid-template-columns: 260px 1fr; gap: 12px; align-items: center; }
+.ov-label { display: grid; grid-template-columns: 4.6em 1fr; column-gap: 6px; font-size: 13px; line-height: 1.35; }
+.ov-no { font-family: var(--f-mono); color: var(--accent); }
+.ov-time { grid-column: 2; font-family: var(--f-mono); color: var(--muted); font-size: 12px; }
+.strip { position: relative; height: 26px; }
+.strip-compact { height: 18px; }
+.track-light { position: absolute; left: 0; right: 0; top: 0; height: 6px; border-radius: 3px; overflow: hidden; background: var(--sky-day); }
+.strip-compact .track-light { height: 4px; }
+.track-blocks { position: absolute; left: 0; right: 0; top: 9px; bottom: 0; }
+.strip-compact .track-blocks { top: 6px; }
+.lb { position: absolute; top: 0; bottom: 0; }
+.lb-day { background: var(--sky-day); } .lb-gold { background: var(--sky-gold); } .lb-blue { background: var(--sky-blue); }
+.lb-deep { background: var(--sky-deep); } .lb-night { background: var(--sky-night); }
+.bk { position: absolute; top: 0; bottom: 0; border-radius: 2px; }
+.bk-shoot { background: var(--bk-shoot); } .bk-prep { background: var(--bk-prep); } .bk-over { background: var(--bk-over); }
+.bk-wait { border-top: 1px dashed var(--bk-prep); border-bottom: 1px dashed var(--bk-prep); }
+.bk-spare { background: repeating-linear-gradient(90deg, var(--bk-prep) 0 2px, transparent 2px 5px); }
+.axis { position: relative; height: 16px; font-family: var(--f-mono); font-size: 11px; color: var(--faint); }
+.tick { position: absolute; transform: translateX(-50%); }
+.tick:first-child { transform: none; }
+.tick:last-child { transform: translateX(-100%); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--muted); margin-top: 12px; }
+.legend i { display: inline-block; width: 18px; height: 8px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+
+.table-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; margin-top: 16px; }
+table.list { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 14px; background: var(--surface); }
+table.list th, table.list td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.list th { font-size: 12px; font-weight: 500; color: var(--faint); letter-spacing: .06em; }
+table.list tr:last-child td { border-bottom: 0; }
+
+.days { display: grid; gap: 28px; margin-top: 18px; }
+.days > * { min-width: 0; }
+.day { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 10px; scroll-margin-top: 60px; min-width: 0; }
+.day > * { min-width: 0; }
+.day-head { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
+.day-no { font-family: var(--f-mono); font-size: 14px; color: var(--on-accent); background: var(--accent); border-radius: 6px; padding: 4px 9px; white-space: nowrap; }
+.day-title h3 { font-size: 19px; }
+.day-meta { color: var(--muted); font-size: 13px; margin-top: 2px; }
+.segs { display: grid; gap: 12px; margin-top: 6px; }
+.seg { background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 14px 14px 8px; display: grid; gap: 6px; min-width: 0; }
+.seg-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
+.seg-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; min-width: 0; }
+.scene { font-family: var(--f-display); font-weight: 700; font-size: 18px; }
+.sub { color: var(--muted); font-size: 14px; }
+.seg-meta { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; font-size: 13px; color: var(--muted); }
+.session { font-size: 12px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); }
+.session.multi { border-color: var(--accent); color: var(--accent); font-weight: 500; }
+.seg-people { font-size: 14px; }
+.seg-people b { font-weight: 500; color: var(--faint); font-size: 12px; letter-spacing: .06em; margin-right: 8px; }
+.script-btn { border: 1px solid var(--accent); color: var(--accent); background: var(--surface); border-radius: 8px; padding: 5px 14px; font-size: 14px; cursor: pointer; white-space: nowrap; }
+.script-btn:hover { background: var(--accent-soft); }
+.script-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.gap { display: grid; grid-template-columns: 7.5em 1fr; gap: 10px; font-size: 13px; color: var(--muted); padding: 2px 14px; }
+.gap .t { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+
+ol.rows { list-style: none; margin: 4px 0 0; padding: 0; }
+ol.rows li { display: grid; grid-template-columns: 3.4em 1fr minmax(0, 12em) 3.6em; gap: 10px; padding: 5px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.5; }
+.rows .t, .rows .m, .rows .sh { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.rows .t { color: var(--muted); }
+.rows .m { text-align: right; color: var(--muted); font-size: 13px; }
+.rows .sh { font-size: 12px; color: var(--faint); word-break: break-all; }
+.rows .what { min-width: 0; }
+.row-over .what, .row-prep .what, .row-spare .what, .row-wait .what { color: var(--muted); }
+.row-wait .what { font-style: italic; }
+.lt { display: inline-block; font-size: 11px; padding: 0 6px; border-radius: 4px; margin-right: 6px; vertical-align: 1px; line-height: 18px; color: #fff; }
+.lt-gold { background: var(--sky-gold); color: #2A1A08; } .lt-blue { background: var(--sky-blue); } .lt-deep { background: var(--sky-deep); } .lt-night { background: #3B4458; }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 8px; }
+.card ul { margin: 0; padding-left: 1.1em; }
+.card li { margin: 3px 0; }
+.big { font-family: var(--f-mono); font-size: 34px; font-weight: 500; line-height: 1.1; }
+
+dialog#scriptbox { border: 1px solid var(--line); border-radius: 14px; padding: 0; width: min(680px, calc(100vw - 32px)); max-height: min(82vh, 820px); background: var(--surface); color: var(--ink); }
+dialog#scriptbox::backdrop { background: var(--scrim); }
+.dlg { display: grid; grid-template-rows: auto 1fr; max-height: min(82vh, 820px); }
+.dlg-head { display: flex; justify-content: space-between; align-items: start; gap: 12px; padding: 16px 18px 12px; border-bottom: 1px solid var(--line); }
+.dlg-head h3 { font-size: 18px; }
+.dlg-note { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.dlg-close { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 4px 12px; cursor: pointer; white-space: nowrap; }
+.dlg-close:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dlg-body { overflow-y: auto; padding: 14px 18px 20px; display: grid; gap: 10px; font-size: 15px; line-height: 1.8; }
+.dlg-body .sum { color: var(--muted); font-size: 14px; background: var(--sunk); border-radius: 8px; padding: 8px 12px; }
+.dlg-body .paren { color: var(--faint); font-size: 14px; }
+footer { color: var(--faint); font-size: 12px; padding-block: 26px 40px; }
+
+
+/* 故事、每场一句话、附录 */
+.story { background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; max-width: 52em; display: grid; gap: 8px; }
+.story-label { font-size: 12px; color: var(--faint); letter-spacing: .06em; }
+.story p { font-size: 15px; line-height: 1.8; }
+.seg-desc { font-size: 15px; line-height: 1.7; color: var(--ink); max-width: 46em; }
+.appx { display: grid; gap: 16px; }
+.appx-item { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 8px; min-width: 0; }
+.appx-item h3 { font-size: 17px; }
+.appx-note { font-size: 13px; color: var(--muted); }
+.appx-body { display: grid; gap: 8px; font-size: 15px; line-height: 1.8; max-width: 46em; }
+.appx-body .sum { color: var(--muted); font-size: 14px; background: var(--sunk); border-radius: 8px; padding: 8px 12px; }
+.appx-body .paren { color: var(--faint); font-size: 14px; }
+
+/* 每天的场地和要求 */
+.places { display: grid; gap: 8px; }
+.places-label { font-size: 12px; color: var(--faint); letter-spacing: .06em; }
+.places-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.place { background: var(--accent-soft); border-radius: 10px; padding: 10px 14px 8px; min-width: 0; }
+.place-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 10px; align-items: baseline; }
+.place-name { font-weight: 700; }
+.place-time { font-size: 12px; color: var(--muted); }
+.place ul { margin: 6px 0 0; padding-left: 1.1em; font-size: 14px; }
+.place li { margin: 2px 0; }
+.late { display: inline-block; margin-left: 6px; font-size: 12px; padding: 0 8px; border-radius: 999px; border: 1px solid var(--accent); color: var(--accent); }
+
+/* 拍摄场次 */
+ol.ss-list { list-style: none; margin: 0; padding: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.ss-row { display: grid; grid-template-columns: 5.5em minmax(0, 1fr) minmax(0, 13em) auto; gap: 6px 12px; align-items: center; padding: 9px 14px; border-top: 1px solid var(--line); font-size: 14px; }
+.ss-list > li:first-child.ss-row { border-top: 0; }
+.ss-no { font-family: var(--f-display); font-weight: 700; color: var(--accent); white-space: nowrap; }
+.ss-sub .ss-no { font-family: var(--f-body); font-weight: 500; color: var(--muted); font-size: 13px; padding-left: 1.2em; }
+.ss-days { font-size: 13px; }
+.ss-days a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--accent); }
+.ss-days a:hover { color: var(--accent); }
+.ss-skip .ss-title, .ss-skip .ss-days { color: var(--faint); }
+.ss-row .script-btn { padding: 3px 10px; font-size: 13px; }
+.ss-foot { color: var(--muted); font-size: 13px; margin-top: 10px; }
+@media (max-width: 760px) {
+  .ss-row { grid-template-columns: 5.2em minmax(0, 1fr) auto; }
+  .ss-row .ss-days { grid-column: 2; grid-row: 2; }
+  .ss-row .script-btn { grid-column: 3; grid-row: 1 / span 2; }
+}
+
+
+@media (max-width: 760px) {
+  ol.rows li { grid-template-columns: 3.2em 1fr 3.2em; grid-template-areas: "t w m" ". s s"; row-gap: 0; }
+  .rows .t { grid-area: t; } .rows .what { grid-area: w; } .rows .m { grid-area: m; } .rows .sh { grid-area: s; }
+  .rows .sh:empty { display: none; }
+  .day .tick-minor { display: none; }
+  .ov-row, .ov-axis { grid-template-columns: 200px 1fr; }
+  .ov-inner { min-width: 600px; }
+  .day { padding: 14px; }
+  .seg { padding: 12px 12px 6px; }
+  .gap { grid-template-columns: 1fr; gap: 0; padding: 2px 12px; }
+}
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+
+
+
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">EXPOSURE 显影 · 学校拍摄日程 · 2026-11-19</div>
+    <h1>学校拍摄日程</h1>
+    <p class="lede">学校里要拍的场次一共 4 天。每天写了拍哪几场、几点到几点、用到哪些地方、要麻烦学校什么，下面是那一天按场次排的时间表；每场右上角的按钮能看剧本原文。日期还没定，先写第几天。</p>
+    <div class="story">
+      <div class="story-label">片子讲什么</div>
+      <p>片子叫《Exposure 显影》，是我视觉艺术课的作品。一个女生 Chloe 毕业后要出国，在学校的最后一个星期，她的朋友 Oscar 送了她一台一次性胶片相机。这一周她只用这台相机拍同学，每拍一张就在相机上画一道线。星期四傍晚大家按学校的传统在球场上互相泼水，她被朋友抱着摔进充气水池，相机在口袋里泡了水。第二天她专门去找了一家老照相馆把胶卷冲出来，发现里面有一张是 Oscar 偷偷拍她的。最后同学们傍晚在操场上给她送行，她也把自己早就买好、一直没送出去的一台相机给了 Oscar。</p>
+      <p>两个人之间是没说出口的喜欢，片子里没有表白，也没有亲密的动作。</p>
+    </div>
+    <div class="facts">
+      <div class="fact"><b>4 天</b><span>在学校拍摄</span></div>
+      <div class="fact"><b>+1</b><span>个备用傍晚，阴天下雨才用</span></div>
+      <div class="fact"><b>2 次</b><span>晚走，都在 20:30 收完</span></div>
+      <div class="fact"><b>约 34 小时</b><span>在学校的时间合计</span></div>
+      <div class="fact"><b>15 人</b><span>全部加起来（演员 10，剧组 4，帮手 1）</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="sec" aria-label="目录">
+  <div class="wrap">
+    <a href="#scenes">拍摄场次</a>
+    <a href="#schedule">总览</a>
+    <a href="#people">一共多少人</a>
+    <a href="#days">每天</a>
+    <a href="#appendix">剧本原文</a>
+  </div>
+</nav>
+
+<main>
+<section id="scenes" class="school-scenes">
+  <div class="wrap">
+    <h2>学校里拍的场次</h2>
+    <p class="sec-lede">对照剧本文档《Exposure 显影（分场-故事顺序）》。一共 6 场在学校：第 2、3、4、5、13、15 场；第 1、6 到 12、14 场在校外。</p>
+    <ol class="ss-list"><li class="ss-row "><span class="ss-no">第 2 场</span><span class="ss-title">星期一早上　学校 locker 前</span><span class="ss-days"><a href="#d1">第 1 天</a></span><button type="button" class="script-btn" data-script="sc2">剧本原文</button></li><li class="ss-row "><span class="ss-no">第 3 场</span><span class="ss-title">星期一中午至星期四早上　拍照蒙太奇（四段），四段都在学校</span><span class="ss-days">分在三天，见下面四行</span><span></span></li><li class="ss-row ss-sub"><span class="ss-no">第 1 段</span><span class="ss-title">星期一中午，草坪（UNO）</span><span class="ss-days"><a href="#d2">第 2 天</a></span><button type="button" class="script-btn" data-script="sc3-1">剧本原文</button></li><li class="ss-row ss-sub"><span class="ss-no">第 2 段</span><span class="ss-title">星期二最后一节课，教室（白板）</span><span class="ss-days"><a href="#d4">第 4 天</a></span><button type="button" class="script-btn" data-script="sc3-2">剧本原文</button></li><li class="ss-row ss-sub"><span class="ss-no">第 3 段</span><span class="ss-title">星期三放学，后面的操场（飞盘）</span><span class="ss-days"><a href="#d2">第 2 天</a></span><button type="button" class="script-btn" data-script="sc3-3">剧本原文</button></li><li class="ss-row ss-sub"><span class="ss-no">第 4 段</span><span class="ss-title">星期四早上，locker 前（清空的柜子）</span><span class="ss-days"><a href="#d1">第 1 天</a></span><button type="button" class="script-btn" data-script="sc3-4">剧本原文</button></li><li class="ss-row ss-skip"><span class="ss-no">第 4 场</span><span class="ss-title">星期四傍晚　长廊 → 游泳馆门口</span><span class="ss-days">这次不单独拍，签名那段并进第 5 场，在看台上拍</span><button type="button" class="script-btn" data-script="sc4">剧本原文</button></li><li class="ss-row "><span class="ss-no">第 5 场</span><span class="ss-title">星期四傍晚　学校泳池（这次拍剧本里球场泼水那一版）</span><span class="ss-days"><a href="#d3">第 3 天</a></span><button type="button" class="script-btn" data-script="sc5">剧本原文</button></li><li class="ss-row "><span class="ss-no">第 13 场</span><span class="ss-title">回忆：星期一早上　学校 locker 前</span><span class="ss-days"><a href="#d1">第 1 天</a></span><button type="button" class="script-btn" data-script="sc13">剧本原文</button></li><li class="ss-row "><span class="ss-no">第 15 场</span><span class="ss-title">星期五傍晚　学校操场（玩飞盘的那片操场）</span><span class="ss-days"><a href="#d2">第 2 天</a>（两个人的镜头）、<a href="#d4">第 4 天</a></span><button type="button" class="script-btn" data-script="sc15">剧本原文</button></li></ol>
+    <p class="ss-foot">另外，第 12 场要用的第 2 到第 21 张照片在学校里拍（第 2 天中午），第 12 场本身在校外的冲洗店。</p>
+  </div>
+</section>
+
+<section id="schedule">
+  <div class="wrap">
+    <h2>总览</h2>
+    <p class="sec-lede">每一行是一天，从早上 7 点画到晚上 11 点。上面那条细线是天色：16:15 到 16:57 太阳落到看台后面（橘色），之后是蓝调和深蓝，17:52 以后天黑。</p>
+    <div class="overview">
+      <div class="ov-inner">
+        <div class="ov-axis"><span></span><div class="axis" aria-hidden="true"><span class="tick" style="left:0.000%">7:00</span><span class="tick tick-minor" style="left:12.500%">9:00</span><span class="tick" style="left:25.000%">11:00</span><span class="tick tick-minor" style="left:37.500%">13:00</span><span class="tick" style="left:50.000%">15:00</span><span class="tick tick-minor" style="left:62.500%">17:00</span><span class="tick" style="left:75.000%">19:00</span><span class="tick tick-minor" style="left:87.500%">21:00</span><span class="tick" style="left:100.000%">23:00</span></div></div>
+        <div class="ov-row"><div class="ov-label"><span class="ov-no">第 1 天</span><span class="ov-title">第 2 场、第 13 场、第 3 场第 4 段</span><span class="ov-time">7:30-14:55</span></div><div class="ov-strip"><div class="strip strip-compact" aria-hidden="true"><div class="track-light"><span class="lb lb-day" style="left:0.000%;width:57.812%"></span><span class="lb lb-gold" style="left:57.812%;width:4.375%"></span><span class="lb lb-blue" style="left:62.187%;width:3.646%"></span><span class="lb lb-deep" style="left:65.833%;width:2.083%"></span><span class="lb lb-night" style="left:67.917%;width:32.083%"></span></div><div class="track-blocks"><span class="bk bk-over" style="left:3.125%;width:4.688%"></span><span class="bk bk-shoot" style="left:7.812%;width:7.812%"></span><span class="bk bk-shoot" style="left:15.625%;width:5.729%"></span><span class="bk bk-shoot" style="left:21.354%;width:5.729%"></span><span class="bk bk-shoot" style="left:27.083%;width:2.083%"></span><span class="bk bk-over" style="left:29.167%;width:3.125%"></span><span class="bk bk-shoot" style="left:32.292%;width:3.125%"></span><span class="bk bk-shoot" style="left:35.417%;width:2.083%"></span><span class="bk bk-shoot" style="left:37.500%;width:2.604%"></span><span class="bk bk-over" style="left:40.104%;width:1.042%"></span><span class="bk bk-shoot" style="left:41.146%;width:3.125%"></span><span class="bk bk-shoot" style="left:44.271%;width:2.083%"></span><span class="bk bk-over" style="left:46.354%;width:3.125%"></span></div></div></div></div><div class="ov-row"><div class="ov-label"><span class="ov-no">第 2 天</span><span class="ov-title">第 3 场第 1 段、第 12 场的照片、第 3 场第 3 段、第 15 场（第 1 次）</span><span class="ov-time">9:30-19:17</span></div><div class="ov-strip"><div class="strip strip-compact" aria-hidden="true"><div class="track-light"><span class="lb lb-day" style="left:0.000%;width:57.812%"></span><span class="lb lb-gold" style="left:57.812%;width:4.375%"></span><span class="lb lb-blue" style="left:62.187%;width:3.646%"></span><span class="lb lb-deep" style="left:65.833%;width:2.083%"></span><span class="lb lb-night" style="left:67.917%;width:32.083%"></span></div><div class="track-blocks"><span class="bk bk-over" style="left:15.625%;width:3.125%"></span><span class="bk bk-shoot" style="left:18.750%;width:4.688%"></span><span class="bk bk-shoot" style="left:23.438%;width:1.562%"></span><span class="bk bk-shoot" style="left:25.000%;width:3.125%"></span><span class="bk bk-shoot" style="left:28.125%;width:1.562%"></span><span class="bk bk-over" style="left:29.688%;width:1.562%"></span><span class="bk bk-shoot" style="left:31.250%;width:4.167%"></span><span class="bk bk-over" style="left:35.417%;width:9.896%"></span><span class="bk bk-over" style="left:45.312%;width:4.688%"></span><span class="bk bk-prep" style="left:50.000%;width:6.771%"></span><span class="bk bk-prep" style="left:56.771%;width:0.521%"></span><span class="bk bk-wait" style="left:57.292%;width:0.521%"></span><span class="bk bk-shoot" style="left:57.812%;width:2.083%"></span><span class="bk bk-shoot" style="left:59.896%;width:1.042%"></span><span class="bk bk-shoot" style="left:60.938%;width:1.042%"></span><span class="bk bk-shoot" style="left:61.979%;width:1.042%"></span><span class="bk bk-prep" style="left:63.021%;width:1.563%"></span><span class="bk bk-wait" style="left:64.583%;width:1.042%"></span><span class="bk bk-shoot" style="left:65.833%;width:1.042%"></span><span class="bk bk-shoot" style="left:66.875%;width:1.042%"></span><span class="bk bk-over" style="left:67.917%;width:1.042%"></span><span class="bk bk-shoot" style="left:68.958%;width:3.125%"></span><span class="bk bk-shoot" style="left:72.083%;width:2.604%"></span><span class="bk bk-over" style="left:74.688%;width:2.083%"></span></div></div></div></div><div class="ov-row"><div class="ov-label"><span class="ov-no">第 3 天</span><span class="ov-title">第 5 场</span><span class="ov-time">13:00-20:27</span></div><div class="ov-strip"><div class="strip strip-compact" aria-hidden="true"><div class="track-light"><span class="lb lb-day" style="left:0.000%;width:57.812%"></span><span class="lb lb-gold" style="left:57.812%;width:4.375%"></span><span class="lb lb-blue" style="left:62.187%;width:3.646%"></span><span class="lb lb-deep" style="left:65.833%;width:2.083%"></span><span class="lb lb-night" style="left:67.917%;width:32.083%"></span></div><div class="track-blocks"><span class="bk bk-over" style="left:37.500%;width:6.250%"></span><span class="bk bk-prep" style="left:43.750%;width:9.375%"></span><span class="bk bk-shoot" style="left:53.125%;width:3.125%"></span><span class="bk bk-wait" style="left:56.250%;width:1.562%"></span><span class="bk bk-shoot" style="left:57.812%;width:1.042%"></span><span class="bk bk-shoot" style="left:58.854%;width:1.042%"></span><span class="bk bk-wait" style="left:59.896%;width:2.083%"></span><span class="bk bk-shoot" style="left:62.187%;width:2.083%"></span><span class="bk bk-shoot" style="left:64.271%;width:2.083%"></span><span class="bk bk-shoot" style="left:66.354%;width:1.562%"></span><span class="bk bk-shoot" style="left:67.917%;width:1.562%"></span><span class="bk bk-shoot" style="left:69.479%;width:2.604%"></span><span class="bk bk-shoot" style="left:72.083%;width:4.167%"></span><span class="bk bk-shoot" style="left:76.250%;width:2.604%"></span><span class="bk bk-shoot" style="left:78.854%;width:1.562%"></span><span class="bk bk-shoot" style="left:80.417%;width:0.521%"></span><span class="bk bk-over" style="left:80.938%;width:3.125%"></span></div></div></div></div><div class="ov-row"><div class="ov-label"><span class="ov-no">第 4 天</span><span class="ov-title">第 3 场第 2 段、第 15 场（第 2 次）</span><span class="ov-time">11:00-20:22</span></div><div class="ov-strip"><div class="strip strip-compact" aria-hidden="true"><div class="track-light"><span class="lb lb-day" style="left:0.000%;width:57.812%"></span><span class="lb lb-gold" style="left:57.812%;width:4.375%"></span><span class="lb lb-blue" style="left:62.187%;width:3.646%"></span><span class="lb lb-deep" style="left:65.833%;width:2.083%"></span><span class="lb lb-night" style="left:67.917%;width:32.083%"></span></div><div class="track-blocks"><span class="bk bk-over" style="left:25.000%;width:3.125%"></span><span class="bk bk-shoot" style="left:28.125%;width:4.688%"></span><span class="bk bk-shoot" style="left:32.812%;width:2.604%"></span><span class="bk bk-shoot" style="left:35.417%;width:3.125%"></span><span class="bk bk-shoot" style="left:38.542%;width:2.083%"></span><span class="bk bk-shoot" style="left:40.625%;width:2.083%"></span><span class="bk bk-over" style="left:42.708%;width:2.083%"></span><span class="bk bk-over" style="left:44.792%;width:5.208%"></span><span class="bk bk-over" style="left:50.000%;width:4.688%"></span><span class="bk bk-prep" style="left:54.688%;width:6.250%"></span><span class="bk bk-wait" style="left:60.938%;width:1.042%"></span><span class="bk bk-shoot" style="left:62.187%;width:0.521%"></span><span class="bk bk-shoot" style="left:62.708%;width:1.042%"></span><span class="bk bk-shoot" style="left:63.750%;width:1.042%"></span><span class="bk bk-shoot" style="left:64.792%;width:2.083%"></span><span class="bk bk-shoot" style="left:66.875%;width:1.562%"></span><span class="bk bk-shoot" style="left:68.438%;width:1.562%"></span><span class="bk bk-shoot" style="left:70.000%;width:4.688%"></span><span class="bk bk-shoot" style="left:74.688%;width:5.208%"></span><span class="bk bk-shoot" style="left:79.896%;width:2.083%"></span><span class="bk bk-over" style="left:81.979%;width:1.562%"></span></div></div></div></div>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--bk-shoot)"></i>拍摄</span>
+        <span><i style="background:var(--bk-prep)"></i>布置、排练</span>
+        <span><i style="background:var(--bk-over)"></i>进场、吃饭、收工</span>
+        <span><i style="background:repeating-linear-gradient(90deg,var(--bk-prep) 0 2px,transparent 2px 5px)"></i>留着补拍</span>
+        <span><i style="background:var(--sky-gold)"></i>日落前</span>
+        <span><i style="background:var(--sky-blue)"></i>蓝调</span>
+        <span><i style="background:var(--sky-deep)"></i>深蓝</span>
+        <span><i style="background:var(--sky-night)"></i>天黑后</span>
+      </div>
+    </div>
+    <div class="table-box">
+      <table class="list">
+        <thead><tr><th>哪天</th><th>时间</th><th>拍哪几场</th><th>在场人数</th></tr></thead>
+        <tbody><tr><td class='nowrap'>第 1 天</td><td class='mono nowrap'>7:30-14:55</td><td>第 2 场、第 13 场、第 3 场第 4 段</td><td>6 人，11:40 以后 5 人</td></tr><tr><td class='nowrap'>第 2 天</td><td class='mono nowrap'>9:30-19:17</td><td>第 3 场第 1 段、第 12 场的照片、第 3 场第 3 段、第 15 场（第 1 次）</td><td>白天 9 到 10 人，傍晚 13 人，17:50 以后 6 人</td></tr><tr><td class='nowrap'>第 3 天</td><td class='mono nowrap'>13:00-20:27</td><td>第 5 场</td><td>14 人</td></tr><tr><td class='nowrap'>第 4 天</td><td class='mono nowrap'>11:00-20:22</td><td>第 3 场第 2 段、第 15 场（第 2 次）</td><td>白天 7 人，傍晚 13 人，17:40 以后 8 人</td></tr></tbody>
+      </table>
+    </div>
+    <p class="sec-lede" style="margin-top:12px">第 15 场分两次拍：第 2 天傍晚飞盘拍完以后，先拍两个人的几个镜头；第 4 天傍晚拍其余部分。其余每场一次拍完。第 4 场这次不单独拍，看台上签名那一段并进第 5 场。</p>
+  </div>
+</section>
+
+<section id="people">
+  <div class="wrap">
+    <h2>一共多少人</h2>
+    <p class="sec-lede">全部加起来 15 人，但不是每天都来这么多。主演 2 个，4 天都在；其他演员只在要用到他们的那几场来。每天在场多少人也可以看上面的总览表。</p>
+    <div class="table-box" style="margin-top:0">
+      <table class="list" style="min-width:0">
+        <thead><tr><th>谁</th><th>人数</th><th>哪几天来</th></tr></thead>
+        <tbody>
+          <tr><td>主演</td><td class="mono">2</td><td>4 天都来（第 1 天只有他们两个）</td></tr>
+          <tr><td>同学（配角和朋友）</td><td class="mono">7</td><td>第 2 天：上午 3 到 4 个，下午到 17:50 全部来；第 3 天：全部来；第 4 天：15:00 到 17:40 全部来，之后留 2 个到 19:50</td></tr>
+          <tr><td>演老师的</td><td class="mono">1</td><td>第 4 天上午</td></tr>
+          <tr><td>剧组</td><td class="mono">4</td><td>4 天都来</td></tr>
+          <tr><td>帮手（管水、毛巾和回暖）</td><td class="mono">1</td><td>第 3 天</td></tr>
+          <tr><td><b>合计</b></td><td class="mono"><b>15</b></td><td>同时在场最多 14 人（第 3 天）</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sec-lede" style="margin-top:12px">主演和 7 个同学全部要到的只有三段：第 2 天下午（14:15 到 17:50）、第 3 天全天、第 4 天傍晚（15:00 到 17:40）。</p>
+  </div>
+</section>
+
+<section id="days">
+  <div class="wrap">
+    <h2>每天</h2>
+    <div class="days"><article class="day" id="d1">
+  <header class="day-head"><div class="day-no">第 1 天</div><div class="day-title"><h3>第 2 场 · 第 13 场 · 第 3 场第 4 段</h3><p class="day-meta"><span class="mono">7:30-14:55</span> · 在学校 7.4 小时</p></div></header>
+  <div class="places"><div class="places-label">用到的地方</div><div class="places-grid"><div class="place"><div class="place-head"><span class="place-name">室内走廊（有 locker 的那条）</span><span class="mono place-time">7:30-14:55</span></div><ul><li>借一格空的 locker，下午要拍它清空以后的样子</li><li>拍的时候如果有人经过，我们停一下，等过去再拍就好</li><li>如果有上下课铃或广播，告诉我们大概几点响，我们避开</li><li>灯我们自己带几盏，会用到一两个插座</li></ul></div></div></div><div class="places-label">这一天的时间</div><div class="axis" aria-hidden="true"><span class="tick" style="left:0.000%">7:00</span><span class="tick tick-minor" style="left:12.500%">9:00</span><span class="tick" style="left:25.000%">11:00</span><span class="tick tick-minor" style="left:37.500%">13:00</span><span class="tick" style="left:50.000%">15:00</span><span class="tick tick-minor" style="left:62.500%">17:00</span><span class="tick" style="left:75.000%">19:00</span><span class="tick tick-minor" style="left:87.500%">21:00</span><span class="tick" style="left:100.000%">23:00</span></div><div class="strip" aria-hidden="true"><div class="track-light"><span class="lb lb-day" style="left:0.000%;width:57.812%"></span><span class="lb lb-gold" style="left:57.812%;width:4.375%"></span><span class="lb lb-blue" style="left:62.187%;width:3.646%"></span><span class="lb lb-deep" style="left:65.833%;width:2.083%"></span><span class="lb lb-night" style="left:67.917%;width:32.083%"></span></div><div class="track-blocks"><span class="bk bk-over" style="left:3.125%;width:4.688%"></span><span class="bk bk-shoot" style="left:7.812%;width:7.812%"></span><span class="bk bk-shoot" style="left:15.625%;width:5.729%"></span><span class="bk bk-shoot" style="left:21.354%;width:5.729%"></span><span class="bk bk-shoot" style="left:27.083%;width:2.083%"></span><span class="bk bk-over" style="left:29.167%;width:3.125%"></span><span class="bk bk-shoot" style="left:32.292%;width:3.125%"></span><span class="bk bk-shoot" style="left:35.417%;width:2.083%"></span><span class="bk bk-shoot" style="left:37.500%;width:2.604%"></span><span class="bk bk-over" style="left:40.104%;width:1.042%"></span><span class="bk bk-shoot" style="left:41.146%;width:3.125%"></span><span class="bk bk-shoot" style="left:44.271%;width:2.083%"></span><span class="bk bk-over" style="left:46.354%;width:3.125%"></span></div></div>
+  <div class="segs"><div class="seg">
+  <div class="seg-head">
+    <div class="seg-name"><span class="scene">第 2 场</span><span class="sub">对白</span></div>
+    <button type="button" class="script-btn" data-script="sc2">剧本原文</button>
+  </div>
+  <p class="seg-desc">星期一早上，送相机。Oscar 在 Chloe 的柜子前等她，送她一台一次性胶片相机。两个人说了几句话，她决定这一周只用它拍。</p>
+  <div class="seg-meta"><span class="session">这一场只拍这一天（对白和插入分两段）</span><span class="mono">7:30-10:25</span></div>
+  <p class="seg-people"><b>在场</b>Chloe、Oscar，剧组 4 人</p>
+  <ol class="rows"><li class="row-over"><span class="t">7:30</span><span class="what">进场、搬器材、布光、化妆换衣</span><span class="sh"></span><span class="m">45 分</span></li><li class="row-shoot"><span class="t">8:15</span><span class="what">主机位全景，第二台机器同时拍双人侧面中景（两台机器同时拍）</span><span class="sh">02-01、02-04、02-12</span><span class="m">75 分</span></li><li class="row-shoot"><span class="t">9:30</span><span class="what">A、B 两台 135mm 同时拍 Chloe 近景和 Oscar 近景（两台机器同时拍）</span><span class="sh">02-02、02-03、02-05、02-09、02-10、02-14、02-15、02-16</span><span class="m">55 分</span></li></ol>
+</div><div class="seg">
+  <div class="seg-head">
+    <div class="seg-name"><span class="scene">第 13 场</span></div>
+    <button type="button" class="script-btn" data-script="sc13">剧本原文</button>
+  </div>
+  <p class="seg-desc">同一个早上，换个角度。Chloe 那天其实也给 Oscar 买了一台，背在身后，悄悄塞进了书包。和第 2 场同一天连着拍。</p>
+  <div class="seg-meta"><span class="session">这一场只拍这一天，紧接着第 2 场</span><span class="mono">10:25-11:40</span></div>
+  <p class="seg-people"><b>在场</b>Chloe、Oscar，剧组 4 人</p>
+  <ol class="rows"><li class="row-shoot"><span class="t">10:25</span><span class="what">C：稳定器跟在 Chloe 身后转过拐角，停在她身后</span><span class="sh">13-03、13-06</span><span class="m">55 分</span></li><li class="row-shoot"><span class="t">11:20</span><span class="what">插入：她背后的手把黄色相机塞进书包</span><span class="sh">13-04</span><span class="m">20 分</span></li></ol>
+</div><div class="gap"><span class="t">11:40-12:10</span><span>午饭，Oscar 收工</span></div><div class="seg">
+  <div class="seg-head">
+    <div class="seg-name"><span class="scene">第 2 场</span><span class="sub">插入镜头</span></div>
+    <button type="button" class="script-btn" data-script="sc2">剧本原文</button>
+  </div>
+  <p class="seg-desc">第 2 场里手和相机的特写：撕开包装、拨轮、小窗里的 27、在机身上画线。</p>
+  <div class="seg-meta"><span class="session">接上午的第 2 场</span><span class="mono">12:10-13:25</span></div>
+  <p class="seg-people"><b>在场</b>Chloe（只拍手和相机），剧组 4 人</p>
+  <ol class="rows"><li class="row-shoot"><span class="t">12:10</span><span class="what">机身侧面标准构图：用没拔帽的笔比划（全片画线镜头都对着这一格复刻）</span><span class="sh">02-11</span><span class="m">30 分</span></li><li class="row-shoot"><span class="t">12:40</span><span class="what">手部插入：撕开绿色包装；扯纸条贴住小窗</span><span class="sh">02-06、02-13</span><span class="m">20 分</span></li><li class="row-shoot"><span class="t">13:00</span><span class="what">接圈大特写：拨轮、小窗里的 27</span><span class="sh">02-07、02-08</span><span class="m">25 分</span></li></ol>
+</div><div class="seg">
+  <div class="seg-head">
+    <div class="seg-name"><span class="scene">第 3 场第 4 段</span><span class="sub">空柜子</span></div>
+    <button type="button" class="script-btn" data-script="sc3-4">剧本原文</button>
+  </div>
+  <p class="seg-desc">星期四早上，空柜子。她的柜子已经清空了，门开着，她拍了一张。</p>
+  <div class="seg-meta"><span class="session">这一段只拍这一天</span><span class="mono">13:25-14:55</span></div>
+  <p class="seg-people"><b>在场</b>Chloe，剧组 4 人</p>
+  <ol class="rows"><li class="row-over"><span class="t">13:25</span><span class="what">Chloe 换星期四的衣服，清空柜子，机器按 02-01 的记录复位</span><span class="sh"></span><span class="m">10 分</span></li><li class="row-shoot"><span class="t">13:35</span><span class="what">清空的柜子，她举起相机拍（第 25 张）</span><span class="sh">03-20</span><span class="m">30 分</span></li><li class="row-shoot"><span class="t">14:05</span><span class="what">画线插入：23 道，再画第 24 道</span><span class="sh">03-19、03-21</span><span class="m">20 分</span></li><li class="row-over"><span class="t">14:25</span><span class="what">收工，走廊和柜子恢复原样</span><span class="sh"></span><span class="m">30 分</span></li></ol>
+</div></div>
+</article><article class="day" id="d2">
+  <header class="day-head"><div class="day-no">第 2 天</div><div class="day-title"><h3>第 3 场第 1 段 · 第 12 场要用的照片 · 第 3 场第 3 段 · 第 15 场</h3><p class="day-meta"><span class="mono">9:30-19:17</span> · 在学校 9.8 小时</p></div></header>
+  <div class="places"><div class="places-label">用到的地方</div><div class="places-grid"><div class="place"><div class="place-head"><span class="place-name">草坪</span><span class="mono place-time">9:30-12:00</span></div><ul><li>几个人坐在草地上打牌</li></ul></div><div class="place"><div class="place-head"><span class="place-name">校园里几处</span><span class="mono place-time">12:00-12:40</span></div><ul><li>在走廊、草坪、操场边随手拍几张照片，不用清场</li></ul></div><div class="place"><div class="place-head"><span class="place-name">后操场（有看台的那片）</span><span class="mono place-time">14:15-19:15</span></div><ul><li>用操场的一块草地玩飞盘，十来个人</li><li>傍晚想开一下球场灯（大概 16:00 到 19:15），麻烦告诉我们找谁开</li><li>附近有能放东西、换衣服的地方最好，没有也没关系</li></ul></div></div></div><div class="places-label">这一天的时间</div><div class="axis" aria-hidden="true"><span class="tick" style="left:0.000%">7:00</span><span class="tick tick-minor" style="left:12.500%">9:00</span><span class="tick" style="left:25.000%">11:00</span><span class="tick tick-minor" style="left:37.500%">13:00</span><span class="tick" style="left:50.000%">15:00</span><span class="tick tick-minor" style="left:62.500%">17:00</span><span class="tick" style="left:75.000%">19:00</span><span class="tick tick-minor" style="left:87.500%">21:00</span><span class="tick" style="left:100.000%">23:00</span></div><div class="strip" aria-hidden="true"><div class="track-light"><span class="lb lb-day" style="left:0.000%;width:57.812%"></span><span class="lb lb-gold" style="left:57.812%;width:4.375%"></span><span class="lb lb-blue" style="left:62.187%;width:3.646%"></span><span class="lb lb-deep" style="left:65.833%;width:2.083%"></span><span class="lb lb-night" style="left:67.917%;width:32.083%"></span></div><div class="track-blocks"><span class="bk bk-over" style="left:15.625%;width:3.125%"></span><span class="bk bk-shoot" style="left:18.750%;width:4.688%"></span><span class="bk bk-shoot" style="left:23.438%;width:1.562%"></span><span class="bk bk-shoot" style="left:25.000%;width:3.125%"></span><span class="bk bk-shoot" style="left:28.125%;width:1.562%"></span><span class="bk bk-over" style="left:29.688%;width:1.562%"></span><span class="bk bk-shoot" style="left:31.250%;width:4.167%"></span><span class="bk bk-over" style="left:35.417%;width:9.896%"></span><span class="bk bk-over" style="left:45.312%;width:4.688%"></span><span class="bk bk-prep" style="left:50.000%;width:6.771%"></span><span class="bk bk-prep" style="left:56.771%;width:0.521%"></span><span class="bk bk-wait" style="left:57.292%;width:0.521%"></span><span class="bk bk-shoot" style="left:57.812%;width:2.083%"></span><span class="bk bk-shoot" style="left:59.896%;width:1.042%"></span><span class="bk bk-shoot" style="left:60.938%;width:1.042%"></span><span class="bk bk-shoot" style="left:61.979%;width:1.042%"></span><span class="bk bk-prep" style="left:63.021%;width:1.563%"></span><span class="bk bk-wait" style="left:64.583%;width:1.042%"></span><span class="bk bk-shoot" style="left:65.833%;width:1.042%"></span><span class="bk bk-shoot" style="left:66.875%;width:1.042%"></span><span class="bk bk-over" style="left:67.917%;width:1.042%"></span><span class="bk bk-shoot" style="left:68.958%;width:3.125%"></span><span class="bk bk-shoot" style="left:72.083%;width:2.604%"></span><span class="bk bk-over" style="left:74.688%;width:2.083%"></span></div></div>
+  <div class="segs"><div class="seg">
+  <div class="seg-head">
+    <div class="seg-name"><span class="scene">第 3 场第 1 段</span><span class="sub">草坪 UNO</span></div>
+    <button type="button" class="script-btn" data-script="sc3-1">剧本原文</button>
+  </div>
+  <p class="seg-desc">星期一中午，打 UNO。几个朋友围坐在草坪上打牌，Chloe 拍下这一周的第一张。</p>
+  <div class="seg-meta"><span class="session">这一段只拍这一天</span><span class="mono">9:30-12:00</span></div>
+  <p class="seg-people"><b>在场</b>Chloe、Oscar、Mia 和 2 到 3 个朋友，剧组 4 人</p>
+  <ol class="rows"><li class="row-over"><span class="t">9:30</span><span class="what">进场、搬器材</span><span class="sh"></span><span class="m">30 分</span></li><li class="row-shoot"><span class="t">10:00</span><span class="what">高位全景：几个人围坐打 UNO，按机位图摆好位置</span><span class="sh">03-01</span><span class="m">45 分</span></li><li class="row-shoot"><span class="t">10:45</span><span class="what">Chloe 近景：举起相机，闭一只眼</span><span class="sh">03-02</span><span class="m">15 分</span></li><li class="row-shoot"><span class="t">11:00</span><span class="what">取景器视角：Mia 拍下最后一张牌；旁边同时用真相机拍第 1 张</span><span class="sh">03-03</span><span class="m">30 分</span></li><li class="row-shoot"><span class="t">11:30</span><span class="what">画线插入：第 1 道</span><span class="sh">03-04</span><span class="m">15 分</span></li><li class="row-over"><span class="t">11:45</span><span class="what">草坪收工</span><span class="sh"></span><span class="m">15 分</span></li></ol>
+</div><div class="seg">
+  <div class="seg-head">
+    <div class="seg-name"><span class="scene">第 12 场要用的照片</span><span class="sub">第 2 到第 21 张</span></div>
+    <button type="button" class="script-btn" data-script="sc12">剧本原文</button>
+  </div>
+  <p class="seg-desc">片子后面 Chloe 会翻看冲洗出来的照片。这里在校园里给朋友们拍一些日常的照片，冲洗出来当道具。</p>
+  <div class="seg-meta"><span class="session">只拍这一次</span><span class="mono">12:00-12:40</span></div>
+  <p class="seg-people"><b>在场</b>Chloe、Oscar、Mia 和 2 到 3 个朋友，剧组 4 人</p>
+  <ol class="rows"><li class="row-shoot"><span class="t">12:00</span><span class="what">用真的一次性相机在校园里拍朋友们的日常，其中两三张让 Oscar 在照片边上</span><span class="sh">第 2 到第 21 张</span><span class="m">40 分</span></li></ol>
+</div><div class="gap"><span class="t">12:40-14:15</span><span>午饭、休息，换星期三的衣服，搬到后操场，其余朋友到场</span></div><div class="seg">
+  <div class="seg-head">
+    <div class="seg-name"><span class="scene">第 3 场第 3 段</span><span class="sub">飞盘</span></div>
+    <button type="button" class="script-btn" data-script="sc3-3">剧本原文</button>
+  </div>
+  <p class="seg-desc">星期三放学，飞盘。大家在操场上玩飞盘。Chloe 把相机塞给一个人坐在场边的 Oscar，跑上场去接飞盘，Oscar 偷偷拍了她一张。太阳刚落到看台后面、球场灯刚亮的时候拍。</p>
+  <div class="seg-meta"><span class="session">这一段只拍这一天（一个傍晚拍完）</span><span class="mono">14:15-17:52</span></div>
+  <p class="seg-people"><b>在场</b>Chloe、Oscar、Mia 和 6 个朋友，剧组 4 人</p>
+  <ol class="rows"><li class="row-over"><span class="t">14:15</span><span class="what">进场：划场地、准备飞盘、和管灯的人对好开灯时间</span><span class="sh"></span><span class="m">45 分</span></li><li class="row-prep"><span class="t">15:00</span><span class="what">布置、排练</span><span class="sh">03-17、03-11、03-15、03-16、03-12、03-13、03-10</span><span class="m">65 分</span></li><li class="row-prep"><span class="t">16:05</span><span class="what">排练 03-18 跑回来拿相机的路线</span><span class="sh">03-18</span><span class="m">5 分</span></li><li class="row-wait"><span class="t">16:10</span><span class="what">等光，场上热身</span><span class="sh"></span><span class="m">5 分</span></li><li class="row-shoot"><span class="t">16:15</span><span class="what"><span class="lt lt-gold">日落前</span>Oscar 视角：贴着草地仰拍她起跳接飞盘（升格），同时真拍第 24 张</span><span class="sh">03-17</span><span class="m">20 分</span></li><li class="row-shoot"><span class="t">16:35</span><span class="what"><span class="lt lt-gold">日落前</span>全景手持横移 + Mia 招手（两台机器同时拍）</span><span class="sh">03-11、03-15</span><span class="m">10 分</span></li><li class="row-shoot"><span class="t">16:45</span><span class="what"><span class="lt lt-gold">日落前</span>Chloe 跑到 Oscar 面前塞相机 + 她等飞盘的近景（两台机器同时拍）</span><span class="sh">03-16、03-12</span><span class="m">10 分</span></li><li class="row-shoot"><span class="t">16:55</span><span class="what"><span class="lt lt-gold">日落前</span>取景器仰拍飞盘（真拍第 23 张）+ 画线插入；这时太阳刚落，天色还接得上</span><span class="sh">03-13、03-10</span><span class="m">10 分</span></li><li class="row-prep"><span class="t">17:05</span><span class="what"><span class="lt lt-blue">蓝调</span>布置稳定器</span><span class="sh">03-18</span><span class="m">15 分</span></li><li class="row-shoot"><span class="t">17:32</span><span class="what"><span class="lt lt-deep">深蓝</span>稳定器跟拍：天快黑，她跑回来拿走相机塞进书包</span><span class="sh">03-18</span><span class="m">10 分</span></li><li class="row-shoot"><span class="t">17:42</span><span class="what"><span class="lt lt-night">天黑后</span>画线插入：画第 23 道</span><span class="sh">03-14</span><span class="m">10 分</span></li></ol>
+</div><div class="seg">
+  <div class="seg-head">
+    <div class="seg-name"><span class="scene">第 15 场</span><span class="sub">两个人的镜头</span></div>
+    <button type="button" class="script-btn" data-script="sc15">剧本原文</button>
+  </div>
+  <p class="seg-desc">第 15 场里的几个近镜头：Chloe 把一直没送出去的黄色相机放到 Oscar 手里，他撕开包装。</p>
+  <div class="seg-meta"><span class="session multi">第 1 次，共 2 次</span><span class="mono">17:52-19:17</span></div>
+  <p class="seg-people"><b>在场</b>Chloe、Oscar（朋友们可以收工），剧组 4 人</p>
+  <ol class="rows"><li class="row-over"><span class="t">17:52</span><span class="what">Chloe 和 Oscar 换星期五的衣服</span><span class="sh"></span><span class="m">10 分</span></li><li class="row-shoot"><span class="t">18:02</span><span class="what"><span class="lt lt-night">天黑后</span>插入：相机放到他手里、撕黄色包装、拨轮、27</span><span class="sh">15-18、15-22、15-23、15-24</span><span class="m">30 分</span></li><li class="row-shoot"><span class="t">18:32</span><span class="what"><span class="lt lt-night">天黑后</span>双人侧面（同 02-04）：Chloe 从书包里拿出黄色相机</span><span class="sh">15-17</span><span class="m">25 分</span></li><li class="row-over"><span class="t">18:57</span><span class="what">收工</span><span class="sh"></span><span class="m">20 分</span></li></ol>
+</div></div>
+</article><article class="day" id="d3">
+  <header class="day-head"><div class="day-no">第 3 天</div><div class="day-title"><h3>第 5 场</h3><p class="day-meta"><span class="mono">13:00-20:27</span> · 在学校 7.5 小时 <span class="late">会晚一点，20:30 收完</span></p></div></header>
+  <div class="places"><div class="places-label">用到的地方</div><div class="places-grid"><div class="place"><div class="place-head"><span class="place-name">后操场（看台和旁边的空地）</span><span class="mono place-time">13:00-20:30</span></div><ul><li>在看台上拍大家互相签名</li><li>会用到水：看台下面的硬地上放一个充气小水池，大家用桶泼水；想问问场边有没有能接水管的水龙头</li><li>收工后我们自己把水排掉、把场地收拾干净</li><li>傍晚想开球场灯（16:30 到 20:30）</li><li>大家会被泼湿，附近如果有能换衣服、暖和一点的屋子就太好了</li></ul></div></div></div><div class="places-label">这一天的时间</div><div class="axis" aria-hidden="true"><span class="tick" style="left:0.000%">7:00</span><span class="tick tick-minor" style="left:12.500%">9:00</span><span class="tick" style="left:25.000%">11:00</span><span class="tick tick-minor" style="left:37.500%">13:00</span><span class="tick" style="left:50.000%">15:00</span><span class="tick tick-minor" style="left:62.500%">17:00</span><span class="tick" style="left:75.000%">19:00</span><span class="tick tick-minor" style="left:87.500%">21:00</span><span class="tick" style="left:100.000%">23:00</span></div><div class="strip" aria-hidden="true"><div class="track-light"><span class="lb lb-day" style="left:0.000%;width:57.812%"></span><span class="lb lb-gold" style="left:57.812%;width:4.375%"></span><span class="lb lb-blue" style="left:62.187%;width:3.646%"></span><span class="lb lb-deep" style="left:65.833%;width:2.083%"></span><span class="lb lb-night" style="left:67.917%;width:32.083%"></span></div><div class="track-blocks"><span class="bk bk-over" style="left:37.500%;width:6.250%"></span><span class="bk bk-prep" style="left:43.750%;width:9.375%"></span><span class="bk bk-shoot" style="left:53.125%;width:3.125%"></span><span class="bk bk-wait" style="left:56.250%;width:1.562%"></span><span class="bk bk-shoot" style="left:57.812%;width:1.042%"></span><span class="bk bk-shoot" style="left:58.854%;width:1.042%"></span><span class="bk bk-wait" style="left:59.896%;width:2.083%"></span><span class="bk bk-shoot" style="left:62.187%;width:2.083%"></span><span class="bk bk-shoot" style="left:64.271%;width:2.083%"></span><span class="bk bk-shoot" style="left:66.354%;width:1.562%"></span><span class="bk bk-shoot" style="left:67.917%;width:1.562%"></span><span class="bk bk-shoot" style="left:69.479%;width:2.604%"></span><span class="bk bk-shoot" style="left:72.083%;width:4.167%"></span><span class="bk bk-shoot" style="left:76.250%;width:2.604%"></span><span class="bk bk-shoot" style="left:78.854%;width:1.562%"></span><span class="bk bk-shoot" style="left:80.417%;width:0.521%"></span><span class="bk bk-over" style="left:80.938%;width:3.125%"></span></div></div>
+  <div class="segs"><div class="seg">
+  <div class="seg-head">
+    <div class="seg-name"><span class="scene">第 5 场</span><span class="sub">看台签名、泼水、摔进水池</span></div>
+    <button type="button" class="script-btn" data-script="sc5">剧本原文</button>
+  </div>
+  <p class="seg-desc">星期四傍晚，泼水。学校的传统，毕业生先在白衬衫上互相签名，然后在球场上用桶互相泼水。Chloe 发现相机已经拍完了，最后被朋友从后面抱住，一起摔进充气水池，相机泡了水。</p>
+  <div class="seg-meta"><span class="session">这一场只拍这一天（一个傍晚拍完）</span><span class="mono">13:00-20:27</span></div>
+  <p class="seg-people"><b>在场</b>Chloe、Oscar、Mia 和 6 个朋友，剧组 4 人，另加 1 个人管水和回暖</p>
+  <ol class="rows"><li class="row-over"><span class="t">13:00</span><span class="what">进场：充气水池充气、灌水、接水管，和管灯的人对好时间</span><span class="sh"></span><span class="m">60 分</span></li><li class="row-prep"><span class="t">14:00</span><span class="what">布置、排练：看台签名、下看台、举桶、泼水</span><span class="sh"></span><span class="m">90 分</span></li><li class="row-shoot"><span class="t">15:30</span><span class="what">插入：快门按不下去、拨轮空转、撕纸条、小窗里的 0（趁等光先拍）</span><span class="sh"></span><span class="m">30 分</span></li><li class="row-wait"><span class="t">16:00</span><span class="what">等光；剧组先把天黑后要用的灯架好</span><span class="sh"></span><span class="m">15 分</span></li><li class="row-shoot"><span class="t">16:15</span><span class="what"><span class="lt lt-gold">日落前</span>看台：大家互相签名，Chloe 踩上第三排往下拍</span><span class="sh"></span><span class="m">10 分</span></li><li class="row-shoot"><span class="t">16:25</span><span class="what"><span class="lt lt-gold">日落前</span>她从看台下来，穿外套，把相机放进右边口袋</span><span class="sh"></span><span class="m">10 分</span></li><li class="row-wait"><span class="t">16:35</span><span class="what">剧组继续架天黑后要用的灯</span><span class="sh"></span><span class="m">20 分</span></li><li class="row-shoot"><span class="t">16:57</span><span class="what"><span class="lt lt-blue">蓝调</span>取景器里几个人把桶举过头顶，同时真拍第 27 张</span><span class="sh"></span><span class="m">20 分</span></li><li class="row-shoot"><span class="t">17:17</span><span class="what"><span class="lt lt-blue">蓝调</span>水泼起来，Chloe 护着口袋躲开：“你躲什么！”“等一下。”</span><span class="sh"></span><span class="m">20 分</span></li><li class="row-shoot"><span class="t">17:37</span><span class="what"><span class="lt lt-night">天黑后</span>画线插入：画第 26 道</span><span class="sh"></span><span class="m">15 分</span></li><li class="row-shoot"><span class="t">17:52</span><span class="what"><span class="lt lt-night">天黑后</span>她的反应：愣住，数线（插入另外先拍好了）</span><span class="sh"></span><span class="m">15 分</span></li><li class="row-shoot"><span class="t">18:07</span><span class="what"><span class="lt lt-night">天黑后</span>“你们谁用过我的相机？”没人回头；Oscar 泼水“别数了，过来啊！”（灯提前架好）（两台机器同时拍）</span><span class="sh"></span><span class="m">25 分</span></li><li class="row-shoot"><span class="t">18:32</span><span class="what"><span class="lt lt-night">天黑后</span>Mia 从后面抱住她一起摔进充气水池，两台机器拍两个角度；时间够再摔一次</span><span class="sh"></span><span class="m">40 分</span></li><li class="row-shoot"><span class="t">19:12</span><span class="what"><span class="lt lt-night">天黑后</span>她坐在水里，周围的人又浇一桶，所有人都在笑（两台机器同时拍）</span><span class="sh"></span><span class="m">25 分</span></li><li class="row-shoot"><span class="t">19:37</span><span class="what"><span class="lt lt-night">天黑后</span>她站起来外套往下坠，掏出相机往下滴水（含插入）</span><span class="sh"></span><span class="m">15 分</span></li><li class="row-shoot"><span class="t">19:52</span><span class="what"><span class="lt lt-night">天黑后</span>朋友们回暖时用自己的手机拍第 7 场群聊里的照片（不占剧组时间）</span><span class="sh">07-02</span><span class="m">5 分</span></li><li class="row-over"><span class="t">19:57</span><span class="what">收工：排水、收水池、清理场地（排水在上一条时就开始）</span><span class="sh"></span><span class="m">30 分</span></li></ol>
+</div></div>
+</article><article class="day" id="d4">
+  <header class="day-head"><div class="day-no">第 4 天</div><div class="day-title"><h3>第 3 场第 2 段 · 第 15 场</h3><p class="day-meta"><span class="mono">11:00-20:22</span> · 在学校 9.4 小时 <span class="late">会晚一点，20:30 收完</span></p></div></header>
+  <div class="places"><div class="places-label">用到的地方</div><div class="places-grid"><div class="place"><div class="place-head"><span class="place-name">教室</span><span class="mono place-time">11:00-14:10</span></div><ul><li>想借一间前门挨着白板的教室</li><li>会在白板上写满名字，拍完我们擦干净，桌椅放回原样</li></ul></div><div class="place"><div class="place-head"><span class="place-name">后操场（玩飞盘的那片）</span><span class="mono place-time">15:00-20:30</span></div><ul><li>用操场的一块草地，十来个人坐着聊天、拍照</li><li>傍晚想开球场灯（16:30 到 20:30）</li><li>附近有能放东西的地方最好</li></ul></div></div></div><div class="places-label">这一天的时间</div><div class="axis" aria-hidden="true"><span class="tick" style="left:0.000%">7:00</span><span class="tick tick-minor" style="left:12.500%">9:00</span><span class="tick" style="left:25.000%">11:00</span><span class="tick tick-minor" style="left:37.500%">13:00</span><span class="tick" style="left:50.000%">15:00</span><span class="tick tick-minor" style="left:62.500%">17:00</span><span class="tick" style="left:75.000%">19:00</span><span class="tick tick-minor" style="left:87.500%">21:00</span><span class="tick" style="left:100.000%">23:00</span></div><div class="strip" aria-hidden="true"><div class="track-light"><span class="lb lb-day" style="left:0.000%;width:57.812%"></span><span class="lb lb-gold" style="left:57.812%;width:4.375%"></span><span class="lb lb-blue" style="left:62.187%;width:3.646%"></span><span class="lb lb-deep" style="left:65.833%;width:2.083%"></span><span class="lb lb-night" style="left:67.917%;width:32.083%"></span></div><div class="track-blocks"><span class="bk bk-over" style="left:25.000%;width:3.125%"></span><span class="bk bk-shoot" style="left:28.125%;width:4.688%"></span><span class="bk bk-shoot" style="left:32.812%;width:2.604%"></span><span class="bk bk-shoot" style="left:35.417%;width:3.125%"></span><span class="bk bk-shoot" style="left:38.542%;width:2.083%"></span><span class="bk bk-shoot" style="left:40.625%;width:2.083%"></span><span class="bk bk-over" style="left:42.708%;width:2.083%"></span><span class="bk bk-over" style="left:44.792%;width:5.208%"></span><span class="bk bk-over" style="left:50.000%;width:4.688%"></span><span class="bk bk-prep" style="left:54.688%;width:6.250%"></span><span class="bk bk-wait" style="left:60.938%;width:1.042%"></span><span class="bk bk-shoot" style="left:62.187%;width:0.521%"></span><span class="bk bk-shoot" style="left:62.708%;width:1.042%"></span><span class="bk bk-shoot" style="left:63.750%;width:1.042%"></span><span class="bk bk-shoot" style="left:64.792%;width:2.083%"></span><span class="bk bk-shoot" style="left:66.875%;width:1.562%"></span><span class="bk bk-shoot" style="left:68.438%;width:1.562%"></span><span class="bk bk-shoot" style="left:70.000%;width:4.688%"></span><span class="bk bk-shoot" style="left:74.688%;width:5.208%"></span><span class="bk bk-shoot" style="left:79.896%;width:2.083%"></span><span class="bk bk-over" style="left:81.979%;width:1.562%"></span></div></div>
+  <div class="segs"><div class="seg">
+  <div class="seg-head">
+    <div class="seg-name"><span class="scene">第 3 场第 2 段</span><span class="sub">教室白板</span></div>
+    <button type="button" class="script-btn" data-script="sc3-2">剧本原文</button>
+  </div>
+  <p class="seg-desc">星期二最后一节课，白板。老师擦完白板出去，有人在白板上写满了全班的名字，Chloe 站到前面拍下来，Oscar 靠在门口。</p>
+  <div class="seg-meta"><span class="session">这一段只拍这一天</span><span class="mono">11:00-14:10</span></div>
+  <p class="seg-people"><b>在场</b>Chloe、Oscar、一个演老师的人，剧组 4 人</p>
+  <ol class="rows"><li class="row-over"><span class="t">11:00</span><span class="what">进场、搬器材、布光</span><span class="sh"></span><span class="m">30 分</span></li><li class="row-shoot"><span class="t">11:30</span><span class="what">老师擦干净白板，从门口出去（白板还空着，最先拍）</span><span class="sh">03-06</span><span class="m">45 分</span></li><li class="row-shoot"><span class="t">12:15</span><span class="what">在白板上写满全班的名字</span><span class="sh"></span><span class="m">25 分</span></li><li class="row-shoot"><span class="t">12:40</span><span class="what">后排全景手持：Chloe 走到前面，Oscar 靠在门口</span><span class="sh">03-07</span><span class="m">30 分</span></li><li class="row-shoot"><span class="t">13:10</span><span class="what">取景器视角：写满名字的白板；同时真拍第 22 张</span><span class="sh">03-08</span><span class="m">20 分</span></li><li class="row-shoot"><span class="t">13:30</span><span class="what">画线插入：21 道，再画第 22 道</span><span class="sh">03-05、03-09</span><span class="m">20 分</span></li><li class="row-over"><span class="t">13:50</span><span class="what">收工：擦白板、桌椅复位</span><span class="sh"></span><span class="m">20 分</span></li></ol>
+</div><div class="gap"><span class="t">14:10-15:00</span><span>午饭、休息，换星期五的衣服，搬到后操场</span></div><div class="seg">
+  <div class="seg-head">
+    <div class="seg-name"><span class="scene">第 15 场</span><span class="sub">送行</span></div>
+    <button type="button" class="script-btn" data-script="sc15">剧本原文</button>
+  </div>
+  <p class="seg-desc">星期五傍晚，送行。朋友们在操场上给她送行，有人带了披萨。她把那张照片给了 Oscar，又把一直没送出去的相机放到他手里。</p>
+  <div class="seg-meta"><span class="session multi">第 2 次，共 2 次</span><span class="mono">15:00-20:22</span></div>
+  <p class="seg-people"><b>在场</b>Chloe、Oscar、Mia 和 6 个朋友，剧组 4 人（17:40 以后只留 Chloe、Oscar、Mia 和喊到二跑开的朋友）</p>
+  <ol class="rows"><li class="row-over"><span class="t">15:00</span><span class="what">进场：摆人群和披萨，和管灯的人对好时间</span><span class="sh"></span><span class="m">45 分</span></li><li class="row-prep"><span class="t">15:45</span><span class="what">布置、排练</span><span class="sh">15-01、15-03、15-04、15-09、15-16</span><span class="m">60 分</span></li><li class="row-wait"><span class="t">16:45</span><span class="what">等光</span><span class="sh"></span><span class="m">10 分</span></li><li class="row-shoot"><span class="t">16:57</span><span class="what"><span class="lt lt-blue">蓝调</span>高处大全景 + Oscar 站在人群边上看天（两台机器同时拍）</span><span class="sh">15-01、15-03</span><span class="m">5 分</span></li><li class="row-shoot"><span class="t">17:02</span><span class="what"><span class="lt lt-blue">蓝调</span>两人正面：Chloe 走到他旁边，“你今天去哪了？”</span><span class="sh">15-04</span><span class="m">10 分</span></li><li class="row-shoot"><span class="t">17:12</span><span class="what"><span class="lt lt-blue">蓝调</span>两人身后全景：Mia 拉着朋友跑过来 / 笑着跑回人群</span><span class="sh">15-09、15-16</span><span class="m">10 分</span></li><li class="row-shoot"><span class="t">17:22</span><span class="what"><span class="lt lt-night">天黑后</span>人群里中景：有人抱着 Chloe 哭了一会儿</span><span class="sh">15-02</span><span class="m">20 分</span></li><li class="row-shoot"><span class="t">17:42</span><span class="what"><span class="lt lt-night">天黑后</span>Chloe 近景：没回答，递出信封</span><span class="sh">15-05</span><span class="m">15 分</span></li><li class="row-shoot"><span class="t">17:57</span><span class="what"><span class="lt lt-night">天黑后</span>背手：Oscar 把照片塞回信封背到身后</span><span class="sh">15-10</span><span class="m">15 分</span></li><li class="row-shoot"><span class="t">18:12</span><span class="what"><span class="lt lt-night">天黑后</span>A′、B′ 两台 135mm 同时拍 Oscar 近景和 Chloe 近景（按第 2 场 A、B 的记录复刻）（两台机器同时拍）</span><span class="sh">15-07、15-19、15-20、15-21</span><span class="m">45 分</span></li><li class="row-shoot"><span class="t">18:57</span><span class="what"><span class="lt lt-night">天黑后</span>Mia 手机自拍画面一条拍到底（挤进来、喊到二、转过来、咔嚓），第二台机器拍 Mia 使眼色（两台机器同时拍）</span><span class="sh">15-11、15-12、15-13、15-14、15-15</span><span class="m">50 分</span></li><li class="row-shoot"><span class="t">19:47</span><span class="what"><span class="lt lt-night">天黑后</span>插入：抽出那张照片 / 拇指碰角上的水渍（要用洗好的第 24 张）</span><span class="sh">15-06、15-08</span><span class="m">20 分</span></li><li class="row-over"><span class="t">20:07</span><span class="what">收工、清理草地（演员回暖穿插在换机位的时候）</span><span class="sh"></span><span class="m">15 分</span></li></ol>
+</div></div>
+</article></div>
+  </div>
+</section>
+
+
+
+<section id="appendix">
+  <div class="wrap">
+    <h2>附录：剧本原文</h2>
+    <p class="sec-lede">学校里拍的几场，和每场右上角按钮里的内容一样，放在这里方便打印和导出。括号里的灰字是拍摄说明。</p>
+    <div class="appx"><article class="appx-item" id="appx-sc2"><h3>第 2 场　星期一早上　学校 locker 前</h3><div class="appx-body"><p class="sum">内容：Oscar 把绿色纸壳的一次性相机送给 Chloe。她决定这周只用它拍，用纸条贴住计数小窗，每拍一张就在机身侧面画一道。</p><p>星期一早上，Oscar 在locker前等Chloe。他手里拿着一台一次性相机，全新，还在一个绿色的纸壳里。</p><p>“给你的。”<span class="paren">（昨天练的一句没想起来）</span></p><p>Chloe 看着那台相机，笑了一下。</p><p>“笑什么？”</p><p>“没什么。”她接过来，“干嘛送我这个？”</p><p>“最后一周了。”Oscar 说，“送你一个礼物。”</p><p>“二十七张，”她一边拆包装一边说，“那我得省着拍。”她用拇指去拨机身背后的拨轮，咔哒咔哒一直拨到拧不动。顶上的小窗里跳出一个 27。</p><p>“谢谢你。”</p><p>Oscar 停了一下。“没事。”</p><p>她从笔袋里翻出一支记号笔，在机身侧面比划了一下。“这周我只用它拍。拍一张，就在这儿画一道。”</p><p>“上面也可以看。”Oscar 指了指顶上的小窗。</p><p>“那个是往下数的。”</p><p>她从刚撕下来的包装纸上扯了一条，又从笔袋里翻出一截透明胶带，把纸条贴在那个小窗上。“看着它一张一张少下去，我会舍不得按。”</p><p>“那你要是忘了画呢？”</p><p>“我不会忘。”</p><p><span class="paren">（这一场和第 13 场是同一个时刻，第 13 场是换到 Chloe 这边拍的。Chloe 走过来的时候，一只手背在身后，手里拿着黄色那台，书包挂在肩上，拉链开着。Oscar 说完“给你的”，她背后那只手先把黄色相机塞进书包，然后她才笑。这一场她也要真的做这个动作。但是在塞完之前，背后那只手、黄色纸壳和书包开口都不能入画。可以让背着的那只手和书包都在离机位远的那一边。用哪只手、书包挂在哪边肩上、拉链开着，这几样两场要一样。她后面拿笔袋的时候，如果笔袋在书包里，也不能拍到书包里面。）</span></p></div></article><article class="appx-item" id="appx-sc3-all"><h3>第 3 场　星期一中午至星期四早上　拍照蒙太奇（四段）</h3><div class="appx-body"><p class="sum">内容：她这一周省着拍的四段，每段结束在按快门、拨轮、画一道。1 星期一中午，草坪上打 UNO；2 星期二最后一节课，写满名字的白板；3 星期三放学，后面的操场玩飞盘，她把相机交给 Oscar；4 星期四早上，清空的 locker。</p><p>这是她在这里的最后一个星期，所有人都知道。最后一天是星期五，她的航班在星期天上午。朋友们都没提这件事，但是大家都在尽量跟她多呆一会儿。</p><p>她拍得很省。二十七张要用五天，每次举起相机之前，她都会先想一想值不值。</p><p><span class="paren">（蒙太奇开始。音乐从第 1 段进，到第 4 段结束。每一段都结束在同一个动作上：按快门、拨轮、画一道。机身侧面的特写用固定机位，下一段直接从下一次举起相机开始，中间跳过的时间靠线数的增加交代，机身越来越满。括号里是每段画完后机身上的线数。）</span></p><p>1.  星期一中午，草坪。几个人围坐着打 UNO。取景器是一个很小的塑料窗口，她闭上一只眼睛，把 Mia 框进去。Mia 把最后一张牌拍在草地上，两只手举了起来。咔嚓一声，她拨一下拨轮，拔开笔帽，在机身上添一道。<span class="paren">（第 1 道。拍摄时 Oscar 坐在圈子靠近 Chloe 的这一边，在她左手边，刚好在取景器框外。他手里还拿着牌，脸却朝着她。洗出来的照片里，他会出现在最左边，只露出半张脸。）</span></p><p>2.  星期二最后一节课。老师擦干净白板出去了，有人在白板上写满了所有人的名字，她站到前面拍了一张，又画一道。<span class="paren">（第 22 道。Oscar 靠在白板旁边的教室门口，在取景框外。）</span></p><p>3.  星期三放学，后面的操场。太阳已经落到看台后面，球场的灯刚亮，草地一半还是橘色，一半已经发蓝。Chloe 站在场边，等飞盘飞到最高的时候按了一下，画上一道。<span class="paren">（第 23 道。）</span></p><p>“Chloe！上来啊，还缺一个人！”Mia 在场上冲她招手。<span class="paren">（喊声压在音乐上面。）</span></p><p>Oscar 一个人坐在场边的草地上。Chloe 跑过去，把相机塞到他手里，没等他抬头就转身跑上了场。</p><p>飞盘朝她飘过来，她起跳去接，头发整个飞了起来，落地的时候盘在手里，她笑得喘不上气。<span class="paren">（Oscar 视角，手持，贴着草地，构图和后面洗出来的那张照片一样。音乐盖住一切，听不到快门声。）</span></p><p>天快黑的时候，她从场上跑回来，经过 Oscar 身边，伸手把相机从他手里拿走，看也没看就塞进书包，又跑回了人群里。<span class="paren">（这一场的镜头都跟着人跑，一路不停。）</span></p><p>4.  星期四早上，locker 前。她的 locker 已经清空了，门开着，里面什么都没有。她拍了一张，画一道。<span class="paren">（第 24 道。音乐收在这一道上，蒙太奇结束。）</span></p></div></article><article class="appx-item" id="appx-sc4"><h3>第 4 场　星期四傍晚　长廊 → 游泳馆门口</h3><p class="appx-note">这次不单独拍：看台上互相签名那一段并进第 5 场一起拍。</p><div class="appx-body"><p class="sum">内容：大家边走边在白衬衫上互相签名，Chloe 踩上长椅拍了一张，画第 25 道；按学校的规矩，毕业生要在天黑前穿着衣服跳进泳池。</p><p>傍晚，长廊。大家穿着白衬衫，一边走一边互相往背上签名，Chloe 的衬衫上也已经签满了名字。前面有人跳上长椅，她也踩上去，往下拍了一张挤在一起签名的人，画一道。<span class="paren">（第 25 道。从这里开始放慢，可以用一个跟着人群走的长镜头。）</span>她跳下来，一边走一边穿上外套<span class="paren">（别人都穿其他的，突出女主）</span>，相机拿在手里。</p><p>按照学校传下来的规矩，毕业生要在天黑之前穿着衣服跳进学校的泳池，管游泳馆的老师每年这一天都会把门打开，站在门口说一句：“天黑之前出来。”</p></div></article><article class="appx-item" id="appx-sc5"><h3>第 5 场　星期四傍晚　球场泼水</h3><p class="appx-note">剧本里这一场有泳池和球场泼水两版，这次拍球场泼水这一版，下面是这一版的原文。看台上互相签名那一段也代替了第 4 场。</p><div class="appx-body"><p>按照学校传下来的规矩，毕业生最后一天放学要在球场上把彼此浇透。管场地的老师每年这一天都会提前把灯打开，把水管接上，然后站在边上说一句：&quot;六点半之前收干净。&quot;</p><p>看台下面摆着一个充气水池，水管还在往里灌。大家穿着白衬衫，一边走一边互相往背上签名，Chloe 的衬衫上也已经签满了名字。她踩上看台的第三排，往下拍了一张挤在一起签名的人。<span class="paren">（第 25 道。）</span></p><p>她从看台上下来，一边走一边穿上外套，把相机放进右边的口袋，隔着布按了一下。</p><p>水开始泼起来。Chloe 一直退在场边，一只手护着那个口袋。有人端着水朝她过来，她侧身躲开，水全泼在地上。</p><p>&quot;你躲什么！&quot;</p><p>&quot;等一下。&quot;</p><p>她把相机从口袋里拿出来，走回场中间。球场的灯在她身后。</p><p>取景器里，好几个人同时把桶举过了头顶。她按了下去。</p><p>她拔开笔帽，在机身上画下一道。<span class="paren">（第 26 道。）</span></p><p>水还在往这边泼，有人冲她喊再来一张。她把相机举起来，按下去，没反应。</p><p>她用拇指去拨拨轮，拨轮在她手指底下空转，没有一点咔哒声。她又按了一次，还是没有反应。她把相机翻过来，抠起星期一贴在顶上的那条纸，撕掉。小窗里是一个 0。</p><p>她从头数机身上的线。五道一组，她用指甲一组一组点过去。二十五，二十六。没有了。她又数了一遍，还是二十六。</p><p>&quot;你们谁用过我的相机？&quot;</p><p>水声和喊声盖过去了，没有人回头。她又说了一遍。Mia 在水池那边冲她挥手，没听见她说什么。</p><p>Oscar 离她最近。他听见了。</p><p>他从水池里撩起一捧水泼在她脚边：&quot;别数了，过来啊！&quot;</p><p>她顺手把相机塞进外套口袋。Mia 从后面抱住她，两个人一起摔进了水池，水漫出来淌了一地。</p><p>她整个人坐在水里，外套泡在水里，头发贴在脸上。周围的人围上来又浇了一桶，所有人都在笑，她也在笑。</p><p>她站起来的时候，外套吸饱了水，沉沉地往下坠。右边的口袋坠得最厉害。她把手伸进去，摸到一块长方形的塑料。</p><p>她赶快把相机掏出来，站在水池边，水从机身的缝隙里一滴一滴往外流。</p></div></article><article class="appx-item" id="appx-sc13"><h3>第 13 场　回忆：星期一早上　学校 locker 前</h3><div class="appx-body"><p class="sum">内容：Chloe 想起星期一早上，Oscar 递相机给她的时候，她把背在身后的黄色相机塞进了书包。</p><p><span class="paren">（回忆）</span>电话里他很久没出声的那一会儿，泳池边他那句“别数了，快下来”，她一件一件往回想，停在星期一的locker前。</p><p>那天早上，她转过走廊拐角的时候，Oscar 已经等在她的locker前面了。她的一只手背在身后，手里也有一台一次性相机，全新，黄色的纸壳。书包挂在肩上，拉链开着。</p><p>这时Oscar 把一台一次性相机递到她面前。</p><p>“给你的。”</p><p>她背在身后的那只手把相机塞进了书包。</p><p>她笑了一下。</p><p>“笑什么？”</p><p>“没什么。”</p><p><span class="paren">（这个作为回忆里另外一个拍Chloe把相机塞回包里的时候的同期对话内容）</span></p><p><span class="paren">（这一场和第 2 场是同一个时刻，最好和第 2 场同一天连着拍。衣服、站位、Oscar 递相机的时间点和台词的节奏都要和第 2 场一样。）</span></p></div></article><article class="appx-item" id="appx-sc15"><h3>第 15 场　星期五傍晚　学校操场（玩飞盘的那片操场）</h3><div class="appx-body"><p class="sum">内容：朋友们给她送行。她把那张照片交给 Oscar；Mia 喊到二，旁边的朋友跑开，手机里只拍下他们两个；她把星期一就买好的黄色相机放到 Oscar 手里，他拨到 27。</p><p>傍晚，朋友们在学校操场上给她送行，就在玩飞盘的那片操场。天又开始发蓝。有人带了披萨，有人抱着她哭了一会儿。Oscar 站在人群边上看着天。Chloe 走到他旁边。</p><p>“你今天去哪了？昨天你说你会来学校的。”</p><p>Chloe 没回答，把一个信封递给他。</p><p>Oscar 抽出那张照片<span class="paren">（那张照片就是 Oscar 偷偷用她的一次性胶片相机拍的）</span>，看了很久，用拇指碰了碰角上那道水渍。</p><p>“拍一张拍一张！”Mia 拉着另一个朋友跑了过来。Oscar 赶紧把照片塞回信封，背到身后。</p><p>Mia 把四个人拢到一起，举起手机自拍，冲旁边的朋友使了个眼色。“三，二……”</p><p>喊到二，旁边的朋友一下子跑开了。Mia 往后跳了一步，把手机转过来，对准只剩下的两个人。</p><p>“一！”</p><p>Oscar 愣住了，看看 Mia，又看看 Chloe。</p><p>Chloe 就那样站在他旁边，看着镜头。</p><p>咔嚓。<span class="paren">（定格成手机里的那张照片：Oscar 侧着头看 Chloe，Chloe 看着镜头。）</span></p><p>Mia 和朋友笑着跑回了人群里。</p><p>Chloe 从书包里拿出那台黄色纸壳的一次性相机，包装还没拆，放到他手里。</p><p>“你什么时候买的？”</p><p>“我星期一就买了。”</p><p>Oscar 笑了一下。</p><p>“笑什么？”</p><p>“没什么。”</p><p>他撕掉包装，用拇指去拨机身背后的拨轮，咔哒咔哒一直拨到拧不动。顶上的小窗里跳出一个 27。</p><p>**全片结束**</p></div></article></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">Exposure 显影 · 学校拍摄日程 · 2026-11-19 · 日期待定</div>
+</footer>
+
+<dialog id="scriptbox" aria-labelledby="dlg-title">
+  <div class="dlg">
+    <div class="dlg-head">
+      <div><h3 id="dlg-title"></h3><p class="dlg-note" id="dlg-note"></p></div>
+      <button type="button" class="dlg-close" id="dlg-close">关闭</button>
+    </div>
+    <div class="dlg-body" id="dlg-body"></div>
+  </div>
+</dialog>
+
+<script type="application/json" id="scripts-data">{"sc2": {"title": "第 2 场　星期一早上　学校 locker 前", "note": "", "html": "<p class=\"sum\">内容：Oscar 把绿色纸壳的一次性相机送给 Chloe。她决定这周只用它拍，用纸条贴住计数小窗，每拍一张就在机身侧面画一道。<\/p><p>星期一早上，Oscar 在locker前等Chloe。他手里拿着一台一次性相机，全新，还在一个绿色的纸壳里。<\/p><p>“给你的。”<span class=\"paren\">（昨天练的一句没想起来）<\/span><\/p><p>Chloe 看着那台相机，笑了一下。<\/p><p>“笑什么？”<\/p><p>“没什么。”她接过来，“干嘛送我这个？”<\/p><p>“最后一周了。”Oscar 说，“送你一个礼物。”<\/p><p>“二十七张，”她一边拆包装一边说，“那我得省着拍。”她用拇指去拨机身背后的拨轮，咔哒咔哒一直拨到拧不动。顶上的小窗里跳出一个 27。<\/p><p>“谢谢你。”<\/p><p>Oscar 停了一下。“没事。”<\/p><p>她从笔袋里翻出一支记号笔，在机身侧面比划了一下。“这周我只用它拍。拍一张，就在这儿画一道。”<\/p><p>“上面也可以看。”Oscar 指了指顶上的小窗。<\/p><p>“那个是往下数的。”<\/p><p>她从刚撕下来的包装纸上扯了一条，又从笔袋里翻出一截透明胶带，把纸条贴在那个小窗上。“看着它一张一张少下去，我会舍不得按。”<\/p><p>“那你要是忘了画呢？”<\/p><p>“我不会忘。”<\/p><p><span class=\"paren\">（这一场和第 13 场是同一个时刻，第 13 场是换到 Chloe 这边拍的。Chloe 走过来的时候，一只手背在身后，手里拿着黄色那台，书包挂在肩上，拉链开着。Oscar 说完“给你的”，她背后那只手先把黄色相机塞进书包，然后她才笑。这一场她也要真的做这个动作。但是在塞完之前，背后那只手、黄色纸壳和书包开口都不能入画。可以让背着的那只手和书包都在离机位远的那一边。用哪只手、书包挂在哪边肩上、拉链开着，这几样两场要一样。她后面拿笔袋的时候，如果笔袋在书包里，也不能拍到书包里面。）<\/span><\/p>"}, "sc13": {"title": "第 13 场　回忆：星期一早上　学校 locker 前", "note": "", "html": "<p class=\"sum\">内容：Chloe 想起星期一早上，Oscar 递相机给她的时候，她把背在身后的黄色相机塞进了书包。<\/p><p><span class=\"paren\">（回忆）<\/span>电话里他很久没出声的那一会儿，泳池边他那句“别数了，快下来”，她一件一件往回想，停在星期一的locker前。<\/p><p>那天早上，她转过走廊拐角的时候，Oscar 已经等在她的locker前面了。她的一只手背在身后，手里也有一台一次性相机，全新，黄色的纸壳。书包挂在肩上，拉链开着。<\/p><p>这时Oscar 把一台一次性相机递到她面前。<\/p><p>“给你的。”<\/p><p>她背在身后的那只手把相机塞进了书包。<\/p><p>她笑了一下。<\/p><p>“笑什么？”<\/p><p>“没什么。”<\/p><p><span class=\"paren\">（这个作为回忆里另外一个拍Chloe把相机塞回包里的时候的同期对话内容）<\/span><\/p><p><span class=\"paren\">（这一场和第 2 场是同一个时刻，最好和第 2 场同一天连着拍。衣服、站位、Oscar 递相机的时间点和台词的节奏都要和第 2 场一样。）<\/span><\/p>"}, "sc15": {"title": "第 15 场　星期五傍晚　学校操场（玩飞盘的那片操场）", "note": "", "html": "<p class=\"sum\">内容：朋友们给她送行。她把那张照片交给 Oscar；Mia 喊到二，旁边的朋友跑开，手机里只拍下他们两个；她把星期一就买好的黄色相机放到 Oscar 手里，他拨到 27。<\/p><p>傍晚，朋友们在学校操场上给她送行，就在玩飞盘的那片操场。天又开始发蓝。有人带了披萨，有人抱着她哭了一会儿。Oscar 站在人群边上看着天。Chloe 走到他旁边。<\/p><p>“你今天去哪了？昨天你说你会来学校的。”<\/p><p>Chloe 没回答，把一个信封递给他。<\/p><p>Oscar 抽出那张照片<span class=\"paren\">（那张照片就是 Oscar 偷偷用她的一次性胶片相机拍的）<\/span>，看了很久，用拇指碰了碰角上那道水渍。<\/p><p>“拍一张拍一张！”Mia 拉着另一个朋友跑了过来。Oscar 赶紧把照片塞回信封，背到身后。<\/p><p>Mia 把四个人拢到一起，举起手机自拍，冲旁边的朋友使了个眼色。“三，二……”<\/p><p>喊到二，旁边的朋友一下子跑开了。Mia 往后跳了一步，把手机转过来，对准只剩下的两个人。<\/p><p>“一！”<\/p><p>Oscar 愣住了，看看 Mia，又看看 Chloe。<\/p><p>Chloe 就那样站在他旁边，看着镜头。<\/p><p>咔嚓。<span class=\"paren\">（定格成手机里的那张照片：Oscar 侧着头看 Chloe，Chloe 看着镜头。）<\/span><\/p><p>Mia 和朋友笑着跑回了人群里。<\/p><p>Chloe 从书包里拿出那台黄色纸壳的一次性相机，包装还没拆，放到他手里。<\/p><p>“你什么时候买的？”<\/p><p>“我星期一就买了。”<\/p><p>Oscar 笑了一下。<\/p><p>“笑什么？”<\/p><p>“没什么。”<\/p><p>他撕掉包装，用拇指去拨机身背后的拨轮，咔哒咔哒一直拨到拧不动。顶上的小窗里跳出一个 27。<\/p><p>**全片结束**<\/p>"}, "sc12": {"title": "第 12 场　星期五白天　窄巷里的冲洗店（店内 → 门口台阶）", "note": "", "html": "<p class=\"sum\">内容：老板收下罐子，说最后拍的几张会被水泡坏；她在台阶上等了两个小时。最后三张没了，其他照片里好几张边上都有 Oscar，还有一张她没拍过的飞盘照片。<\/p><p>那家店开在一条窄巷里，推门的时候门上的铃响了一下。老板头发全白了。Chloe 把罐子放到柜台上。<\/p><p>“昨天掉在泳池里了，我晚上泡上的。泡之前我还用吹风机吹过，在米里埋了一阵，还救得回来吗？”<\/p><p>老板把罐子举到灯下，隔着玻璃看了看机身上那一排黑线。<\/p><p>“后来泡上了就好。这种相机是拍一张往暗盒里卷一张，最后拍的几张卷在最外面，水最先泡到的就是它们，前面拍的应该还在。你等两个小时。”<\/p><p>他端着罐子进了暗房。Chloe 在店门口的台阶上坐了两个小时。<\/p><p>老板出来的时候，递给她一个纸袋和那个罐子。“最后三张没了。”<\/p><p>她在台阶上把照片一张一张抽出来。最后三张是一片斑驳的紫色和褐色，看不出任何东西。只有最后一张，她认出了底下那一块发光的水，那是周四的泳池。但是朋友们停在半空的样子，已经不在上面了。<\/p><p>其他的都还在。她一张一张往下看，越看越慢。一次性相机的取景器只是一个塑料小窗，框住的范围比真正拍下来的少一圈，她拍的时候看不到的边上，好几张都有 Oscar。草坪那张，他在最左边，只露出半张脸。白板那张，他靠在教室门口。每一张里，别人都在看别处，只有他的脸朝着镜头。<\/p><p>翻到星期三的那几张，她发现有一张她没印象的照片。照片是从很低的地方往上拍的，后面是刚亮起来的球场灯。她跳在半空，手伸向飞盘，头发整个飞起来，在笑。那天坐在草地上的只有一个人。<span class=\"paren\">（这里要让观众意识到到底是Oscar 的，这个照片要重复Oscar 之前的视角）<\/span>。照片的一角有一道浅黄色的水渍，贴着照片的边缘。<\/p><p>她在台阶上坐了很久。<\/p>"}, "sc5": {"title": "第 5 场　星期四傍晚　球场泼水", "note": "剧本里这一场有泳池和球场泼水两版，这次拍球场泼水这一版，下面是这一版的原文。看台上互相签名那一段也代替了第 4 场。", "html": "<p>按照学校传下来的规矩，毕业生最后一天放学要在球场上把彼此浇透。管场地的老师每年这一天都会提前把灯打开，把水管接上，然后站在边上说一句：&quot;六点半之前收干净。&quot;<\/p><p>看台下面摆着一个充气水池，水管还在往里灌。大家穿着白衬衫，一边走一边互相往背上签名，Chloe 的衬衫上也已经签满了名字。她踩上看台的第三排，往下拍了一张挤在一起签名的人。<span class=\"paren\">（第 25 道。）<\/span><\/p><p>她从看台上下来，一边走一边穿上外套，把相机放进右边的口袋，隔着布按了一下。<\/p><p>水开始泼起来。Chloe 一直退在场边，一只手护着那个口袋。有人端着水朝她过来，她侧身躲开，水全泼在地上。<\/p><p>&quot;你躲什么！&quot;<\/p><p>&quot;等一下。&quot;<\/p><p>她把相机从口袋里拿出来，走回场中间。球场的灯在她身后。<\/p><p>取景器里，好几个人同时把桶举过了头顶。她按了下去。<\/p><p>她拔开笔帽，在机身上画下一道。<span class=\"paren\">（第 26 道。）<\/span><\/p><p>水还在往这边泼，有人冲她喊再来一张。她把相机举起来，按下去，没反应。<\/p><p>她用拇指去拨拨轮，拨轮在她手指底下空转，没有一点咔哒声。她又按了一次，还是没有反应。她把相机翻过来，抠起星期一贴在顶上的那条纸，撕掉。小窗里是一个 0。<\/p><p>她从头数机身上的线。五道一组，她用指甲一组一组点过去。二十五，二十六。没有了。她又数了一遍，还是二十六。<\/p><p>&quot;你们谁用过我的相机？&quot;<\/p><p>水声和喊声盖过去了，没有人回头。她又说了一遍。Mia 在水池那边冲她挥手，没听见她说什么。<\/p><p>Oscar 离她最近。他听见了。<\/p><p>他从水池里撩起一捧水泼在她脚边：&quot;别数了，过来啊！&quot;<\/p><p>她顺手把相机塞进外套口袋。Mia 从后面抱住她，两个人一起摔进了水池，水漫出来淌了一地。<\/p><p>她整个人坐在水里，外套泡在水里，头发贴在脸上。周围的人围上来又浇了一桶，所有人都在笑，她也在笑。<\/p><p>她站起来的时候，外套吸饱了水，沉沉地往下坠。右边的口袋坠得最厉害。她把手伸进去，摸到一块长方形的塑料。<\/p><p>她赶快把相机掏出来，站在水池边，水从机身的缝隙里一滴一滴往外流。<\/p>"}, "sc3-1": {"title": "第 3 场　星期一中午至星期四早上　拍照蒙太奇（四段）　第 1 段", "note": "第 3 场一共四段，这里是第 1 段。前面几行是整场开头的说明。", "html": "<p class=\"sum\">内容：她这一周省着拍的四段，每段结束在按快门、拨轮、画一道。1 星期一中午，草坪上打 UNO；2 星期二最后一节课，写满名字的白板；3 星期三放学，后面的操场玩飞盘，她把相机交给 Oscar；4 星期四早上，清空的 locker。<\/p><p>这是她在这里的最后一个星期，所有人都知道。最后一天是星期五，她的航班在星期天上午。朋友们都没提这件事，但是大家都在尽量跟她多呆一会儿。<\/p><p>她拍得很省。二十七张要用五天，每次举起相机之前，她都会先想一想值不值。<\/p><p><span class=\"paren\">（蒙太奇开始。音乐从第 1 段进，到第 4 段结束。每一段都结束在同一个动作上：按快门、拨轮、画一道。机身侧面的特写用固定机位，下一段直接从下一次举起相机开始，中间跳过的时间靠线数的增加交代，机身越来越满。括号里是每段画完后机身上的线数。）<\/span><\/p><p>星期一中午，草坪。几个人围坐着打 UNO。取景器是一个很小的塑料窗口，她闭上一只眼睛，把 Mia 框进去。Mia 把最后一张牌拍在草地上，两只手举了起来。咔嚓一声，她拨一下拨轮，拔开笔帽，在机身上添一道。<span class=\"paren\">（第 1 道。拍摄时 Oscar 坐在圈子靠近 Chloe 的这一边，在她左手边，刚好在取景器框外。他手里还拿着牌，脸却朝着她。洗出来的照片里，他会出现在最左边，只露出半张脸。）<\/span><\/p>"}, "sc3-2": {"title": "第 3 场　星期一中午至星期四早上　拍照蒙太奇（四段）　第 2 段", "note": "第 3 场一共四段，这里是第 2 段。前面几行是整场开头的说明。", "html": "<p class=\"sum\">内容：她这一周省着拍的四段，每段结束在按快门、拨轮、画一道。1 星期一中午，草坪上打 UNO；2 星期二最后一节课，写满名字的白板；3 星期三放学，后面的操场玩飞盘，她把相机交给 Oscar；4 星期四早上，清空的 locker。<\/p><p>这是她在这里的最后一个星期，所有人都知道。最后一天是星期五，她的航班在星期天上午。朋友们都没提这件事，但是大家都在尽量跟她多呆一会儿。<\/p><p>她拍得很省。二十七张要用五天，每次举起相机之前，她都会先想一想值不值。<\/p><p><span class=\"paren\">（蒙太奇开始。音乐从第 1 段进，到第 4 段结束。每一段都结束在同一个动作上：按快门、拨轮、画一道。机身侧面的特写用固定机位，下一段直接从下一次举起相机开始，中间跳过的时间靠线数的增加交代，机身越来越满。括号里是每段画完后机身上的线数。）<\/span><\/p><p>星期二最后一节课。老师擦干净白板出去了，有人在白板上写满了所有人的名字，她站到前面拍了一张，又画一道。<span class=\"paren\">（第 22 道。Oscar 靠在白板旁边的教室门口，在取景框外。）<\/span><\/p>"}, "sc3-3": {"title": "第 3 场　星期一中午至星期四早上　拍照蒙太奇（四段）　第 3 段", "note": "第 3 场一共四段，这里是第 3 段。前面几行是整场开头的说明。", "html": "<p class=\"sum\">内容：她这一周省着拍的四段，每段结束在按快门、拨轮、画一道。1 星期一中午，草坪上打 UNO；2 星期二最后一节课，写满名字的白板；3 星期三放学，后面的操场玩飞盘，她把相机交给 Oscar；4 星期四早上，清空的 locker。<\/p><p>这是她在这里的最后一个星期，所有人都知道。最后一天是星期五，她的航班在星期天上午。朋友们都没提这件事，但是大家都在尽量跟她多呆一会儿。<\/p><p>她拍得很省。二十七张要用五天，每次举起相机之前，她都会先想一想值不值。<\/p><p><span class=\"paren\">（蒙太奇开始。音乐从第 1 段进，到第 4 段结束。每一段都结束在同一个动作上：按快门、拨轮、画一道。机身侧面的特写用固定机位，下一段直接从下一次举起相机开始，中间跳过的时间靠线数的增加交代，机身越来越满。括号里是每段画完后机身上的线数。）<\/span><\/p><p>星期三放学，后面的操场。太阳已经落到看台后面，球场的灯刚亮，草地一半还是橘色，一半已经发蓝。Chloe 站在场边，等飞盘飞到最高的时候按了一下，画上一道。<span class=\"paren\">（第 23 道。）<\/span><\/p><p>“Chloe！上来啊，还缺一个人！”Mia 在场上冲她招手。<span class=\"paren\">（喊声压在音乐上面。）<\/span><\/p><p>Oscar 一个人坐在场边的草地上。Chloe 跑过去，把相机塞到他手里，没等他抬头就转身跑上了场。<\/p><p>飞盘朝她飘过来，她起跳去接，头发整个飞了起来，落地的时候盘在手里，她笑得喘不上气。<span class=\"paren\">（Oscar 视角，手持，贴着草地，构图和后面洗出来的那张照片一样。音乐盖住一切，听不到快门声。）<\/span><\/p><p>天快黑的时候，她从场上跑回来，经过 Oscar 身边，伸手把相机从他手里拿走，看也没看就塞进书包，又跑回了人群里。<span class=\"paren\">（这一场的镜头都跟着人跑，一路不停。）<\/span><\/p>"}, "sc3-4": {"title": "第 3 场　星期一中午至星期四早上　拍照蒙太奇（四段）　第 4 段", "note": "第 3 场一共四段，这里是第 4 段。前面几行是整场开头的说明。", "html": "<p class=\"sum\">内容：她这一周省着拍的四段，每段结束在按快门、拨轮、画一道。1 星期一中午，草坪上打 UNO；2 星期二最后一节课，写满名字的白板；3 星期三放学，后面的操场玩飞盘，她把相机交给 Oscar；4 星期四早上，清空的 locker。<\/p><p>这是她在这里的最后一个星期，所有人都知道。最后一天是星期五，她的航班在星期天上午。朋友们都没提这件事，但是大家都在尽量跟她多呆一会儿。<\/p><p>她拍得很省。二十七张要用五天，每次举起相机之前，她都会先想一想值不值。<\/p><p><span class=\"paren\">（蒙太奇开始。音乐从第 1 段进，到第 4 段结束。每一段都结束在同一个动作上：按快门、拨轮、画一道。机身侧面的特写用固定机位，下一段直接从下一次举起相机开始，中间跳过的时间靠线数的增加交代，机身越来越满。括号里是每段画完后机身上的线数。）<\/span><\/p><p>星期四早上，locker 前。她的 locker 已经清空了，门开着，里面什么都没有。她拍了一张，画一道。<span class=\"paren\">（第 24 道。音乐收在这一道上，蒙太奇结束。）<\/span><\/p>"}, "sc4": {"title": "第 4 场　星期四傍晚　长廊 → 游泳馆门口", "note": "这次不单独拍：看台上互相签名那一段并进第 5 场一起拍。", "html": "<p class=\"sum\">内容：大家边走边在白衬衫上互相签名，Chloe 踩上长椅拍了一张，画第 25 道；按学校的规矩，毕业生要在天黑前穿着衣服跳进泳池。<\/p><p>傍晚，长廊。大家穿着白衬衫，一边走一边互相往背上签名，Chloe 的衬衫上也已经签满了名字。前面有人跳上长椅，她也踩上去，往下拍了一张挤在一起签名的人，画一道。<span class=\"paren\">（第 25 道。从这里开始放慢，可以用一个跟着人群走的长镜头。）<\/span>她跳下来，一边走一边穿上外套<span class=\"paren\">（别人都穿其他的，突出女主）<\/span>，相机拿在手里。<\/p><p>按照学校传下来的规矩，毕业生要在天黑之前穿着衣服跳进学校的泳池，管游泳馆的老师每年这一天都会把门打开，站在门口说一句：“天黑之前出来。”<\/p>"}, "sc3-all": {"title": "第 3 场　星期一中午至星期四早上　拍照蒙太奇（四段）", "note": "", "html": "<p class=\"sum\">内容：她这一周省着拍的四段，每段结束在按快门、拨轮、画一道。1 星期一中午，草坪上打 UNO；2 星期二最后一节课，写满名字的白板；3 星期三放学，后面的操场玩飞盘，她把相机交给 Oscar；4 星期四早上，清空的 locker。<\/p><p>这是她在这里的最后一个星期，所有人都知道。最后一天是星期五，她的航班在星期天上午。朋友们都没提这件事，但是大家都在尽量跟她多呆一会儿。<\/p><p>她拍得很省。二十七张要用五天，每次举起相机之前，她都会先想一想值不值。<\/p><p><span class=\"paren\">（蒙太奇开始。音乐从第 1 段进，到第 4 段结束。每一段都结束在同一个动作上：按快门、拨轮、画一道。机身侧面的特写用固定机位，下一段直接从下一次举起相机开始，中间跳过的时间靠线数的增加交代，机身越来越满。括号里是每段画完后机身上的线数。）<\/span><\/p><p>1.  星期一中午，草坪。几个人围坐着打 UNO。取景器是一个很小的塑料窗口，她闭上一只眼睛，把 Mia 框进去。Mia 把最后一张牌拍在草地上，两只手举了起来。咔嚓一声，她拨一下拨轮，拔开笔帽，在机身上添一道。<span class=\"paren\">（第 1 道。拍摄时 Oscar 坐在圈子靠近 Chloe 的这一边，在她左手边，刚好在取景器框外。他手里还拿着牌，脸却朝着她。洗出来的照片里，他会出现在最左边，只露出半张脸。）<\/span><\/p><p>2.  星期二最后一节课。老师擦干净白板出去了，有人在白板上写满了所有人的名字，她站到前面拍了一张，又画一道。<span class=\"paren\">（第 22 道。Oscar 靠在白板旁边的教室门口，在取景框外。）<\/span><\/p><p>3.  星期三放学，后面的操场。太阳已经落到看台后面，球场的灯刚亮，草地一半还是橘色，一半已经发蓝。Chloe 站在场边，等飞盘飞到最高的时候按了一下，画上一道。<span class=\"paren\">（第 23 道。）<\/span><\/p><p>“Chloe！上来啊，还缺一个人！”Mia 在场上冲她招手。<span class=\"paren\">（喊声压在音乐上面。）<\/span><\/p><p>Oscar 一个人坐在场边的草地上。Chloe 跑过去，把相机塞到他手里，没等他抬头就转身跑上了场。<\/p><p>飞盘朝她飘过来，她起跳去接，头发整个飞了起来，落地的时候盘在手里，她笑得喘不上气。<span class=\"paren\">（Oscar 视角，手持，贴着草地，构图和后面洗出来的那张照片一样。音乐盖住一切，听不到快门声。）<\/span><\/p><p>天快黑的时候，她从场上跑回来，经过 Oscar 身边，伸手把相机从他手里拿走，看也没看就塞进书包，又跑回了人群里。<span class=\"paren\">（这一场的镜头都跟着人跑，一路不停。）<\/span><\/p><p>4.  星期四早上，locker 前。她的 locker 已经清空了，门开着，里面什么都没有。她拍了一张，画一道。<span class=\"paren\">（第 24 道。音乐收在这一道上，蒙太奇结束。）<\/span><\/p>"}}</script>
+<script>
+(function () {
+  var data = {};
+  try { data = JSON.parse(document.getElementById("scripts-data").textContent); } catch (e) {}
+  var box = document.getElementById("scriptbox");
+  var title = document.getElementById("dlg-title");
+  var note = document.getElementById("dlg-note");
+  var body = document.getElementById("dlg-body");
+  var lastBtn = null;
+  function open(key, btn) {
+    var s = data[key]; if (!s) return;
+    title.textContent = s.title;
+    note.textContent = s.note || "";
+    note.hidden = !s.note;
+    body.innerHTML = s.html;
+    body.scrollTop = 0;
+    lastBtn = btn;
+    if (typeof box.showModal === "function") { box.showModal(); } else { box.setAttribute("open", ""); }
+  }
+  function close() {
+    if (typeof box.close === "function") { box.close(); } else { box.removeAttribute("open"); }
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest(".script-btn");
+    if (b) { open(b.getAttribute("data-script"), b); }
+  });
+  document.getElementById("dlg-close").addEventListener("click", close);
+  box.addEventListener("click", function (e) { if (e.target === box) close(); });
+  box.addEventListener("close", function () { if (lastBtn) lastBtn.focus(); });
+})();
+</script>
+</body>
+</html>
